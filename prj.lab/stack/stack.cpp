@@ -4,7 +4,7 @@ Stack::Stack(const Stack& rhs)
         : current_index(rhs.current_index), capacity(rhs.capacity) {
     data_ = new Complex[capacity];
     for (std::ptrdiff_t i = 0; i < capacity; i++) {
-        data_[i] = Complex();
+        data_[i] = rhs.data_[i];
     }
 }
 
