@@ -1,9 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include <stack/stack.hpp>
+#include <stackarr/stackarr.hpp>
 
-TEST_CASE("stack ctor") {
-    Stack stack;
+TEST_CASE("stackarr ctor") {
+    StackArr stack;
 
     CHECK(stack.IsEmpty());
 
@@ -23,8 +23,8 @@ TEST_CASE("stack ctor") {
     CHECK(stack.Top() == first_complex);
 }
 
-TEST_CASE("stack pop exception") {
-    Stack stack;
+TEST_CASE("stackarr pop exception") {
+    StackArr stack;
 
     Complex first_complex(1, 1);
 
@@ -41,8 +41,8 @@ TEST_CASE("stack pop exception") {
     CHECK_THROWS(stack.Top());
 }
 
-TEST_CASE("Stack test") {
-    Stack my_stack;
+TEST_CASE("StackArr test") {
+    StackArr my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
@@ -58,12 +58,12 @@ TEST_CASE("Stack test") {
 
     Complex third_complex(1, 1);
 
-    Stack my_stack2;
+    StackArr my_stack2;
     my_stack2.Push(third_complex);
     my_stack = my_stack2;
     CHECK_EQ(my_stack.Top(), third_complex);
 
-    Stack a(my_stack);
+    StackArr a(my_stack);
     CHECK_EQ(a.Top(), third_complex);
 
     Complex fourth_complex(2.3, 7.3);
@@ -76,8 +76,8 @@ TEST_CASE("Stack test") {
     CHECK_EQ(my_stack.Top(), fifth_complex);
 }
 
-TEST_CASE("Stack test") {
-    Stack my_stack;
+TEST_CASE("StackArr test") {
+    StackArr my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
@@ -93,12 +93,12 @@ TEST_CASE("Stack test") {
 
     Complex third_complex(1, 1);
 
-    Stack my_stack2;
+    StackArr my_stack2;
     my_stack2.Push(third_complex);
     my_stack = my_stack2;
     CHECK_EQ(my_stack.Top(), third_complex);
 
-    Stack a(my_stack);
+    StackArr a(my_stack);
     CHECK_EQ(a.Top(), third_complex);
 
     Complex fourth_complex(2.3, 7.3);
@@ -110,8 +110,8 @@ TEST_CASE("Stack test") {
     my_stack.Push(fifth_complex);
     CHECK_EQ(my_stack.Top(), fifth_complex);
 
-    Stack eq1;
-    Stack eq2;
+    StackArr eq1;
+    StackArr eq2;
     eq1.Push(first_complex);
     eq1.Push(second_complex);
     eq1.Push(third_complex);

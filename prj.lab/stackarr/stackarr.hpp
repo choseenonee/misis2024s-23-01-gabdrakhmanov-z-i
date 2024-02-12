@@ -4,19 +4,19 @@
 #include "complex/complex.hpp"
 #include <cstddef>
 
-class Stack {
+class StackArr {
 public:
-    Stack() = default;
-    Stack(const Stack& rhs);
+    StackArr() = default;
+    StackArr(const StackArr& rhs);
 
-    Stack& operator=(const Stack& rhs);
+    StackArr& operator=(const StackArr& rhs);
 
     void Push(Complex& rhs);
     void Pop() noexcept;
     Complex& Top();
     bool IsEmpty() noexcept;
 
-    ~Stack() = default;
+    ~StackArr() = default;
 private:
 //    текущий индекс - индекс последнего внесённого элемента (НЕ следующего)
     int current_index = -1;

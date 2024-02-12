@@ -1,6 +1,6 @@
-#include "stack/stack.hpp"
+#include "stackarr/stackarr.hpp"
 
-Stack::Stack(const Stack& rhs)
+StackArr::StackArr(const StackArr& rhs)
         : current_index(rhs.current_index), capacity(rhs.capacity) {
     data_ = new Complex[capacity];
     for (std::ptrdiff_t i = 0; i < capacity; i++) {
@@ -8,7 +8,7 @@ Stack::Stack(const Stack& rhs)
     }
 }
 
-Stack& Stack::operator=(const Stack& rhs) {
+StackArr& StackArr::operator=(const StackArr& rhs) {
     if (capacity < rhs.capacity) {
         capacity = rhs.capacity;
         delete[] data_;
@@ -27,7 +27,7 @@ Stack& Stack::operator=(const Stack& rhs) {
     return *this;
 }
 
-void Stack::Push(Complex& rhs) {
+void StackArr::Push(Complex& rhs) {
     if (current_index + 1 < capacity && data_ != nullptr) {
         data_[current_index + 1] = rhs;
     } else {
@@ -43,7 +43,7 @@ void Stack::Push(Complex& rhs) {
     current_index++;
 }
 
-void Stack::Pop() noexcept {
+void StackArr::Pop() noexcept {
     if (!IsEmpty()) {
         data_[current_index] = Complex();
         if (current_index > -1) {
@@ -52,13 +52,13 @@ void Stack::Pop() noexcept {
     }
 }
 
-Complex& Stack::Top() {
+Complex& StackArr::Top() {
     if (IsEmpty()) {
-        throw std::out_of_range("Stack is empty");
+        throw std::out_of_range("StackArr is empty");
     }
     return data_[current_index];
 }
 
-bool Stack::IsEmpty() noexcept {
+bool StackArr::IsEmpty() noexcept {
     return current_index == -1;
 }
