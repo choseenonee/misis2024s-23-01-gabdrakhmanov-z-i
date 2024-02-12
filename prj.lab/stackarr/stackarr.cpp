@@ -8,26 +8,26 @@ StackArr::StackArr(const StackArr& rhs)
     }
 }
 
-StackArr& StackArr::operator=(const StackArr& rhs) {
-    if (capacity < rhs.capacity) {
-        capacity = rhs.capacity;
-        delete[] data_;
-        data_ = new Complex[capacity];
-        for (std::ptrdiff_t i = 0; i < capacity; i++) {
-            data_[i] = rhs.data_[i];
-        }
-    } else {
-        capacity = rhs.capacity;
-        for (std::ptrdiff_t i = 0; i < capacity; i++) {
-            data_[i] = rhs.data_[i];
-        }
-    }
-    current_index = rhs.current_index;
+//StackArr& StackArr::operator=(const StackArr& rhs) {
+//    if (capacity < rhs.capacity) {
+//        capacity = rhs.capacity;
+//        delete[] data_;
+//        data_ = new Complex[capacity];
+//        for (std::ptrdiff_t i = 0; i < capacity; i++) {
+//            data_[i] = rhs.data_[i];
+//        }
+//    } else {
+//        capacity = rhs.capacity;
+//        for (std::ptrdiff_t i = 0; i < capacity; i++) {
+//            data_[i] = rhs.data_[i];
+//        }
+//    }
+//    current_index = rhs.current_index;
+//
+//    return *this;
+//}
 
-    return *this;
-}
-
-void StackArr::Push(Complex& rhs) {
+void StackArr::Push(const Complex& rhs) {
     if (current_index + 1 < capacity && data_ != nullptr) {
         data_[current_index + 1] = rhs;
     } else {
@@ -56,9 +56,25 @@ Complex& StackArr::Top() {
     if (IsEmpty()) {
         throw std::out_of_range("StackArr is empty");
     }
+
+    Complex& cmpl = data_[current_index];
+    return cmpl;
+}
+
+const Complex& StackArr::Top() const {
+    if (IsEmpty()) {
+        throw std::out_of_range("StackArr is empty");
+    }
     return data_[current_index];
 }
 
-bool StackArr::IsEmpty() noexcept {
+bool StackArr::IsEmpty() const noexcept {
     return current_index == -1;
+}
+
+void StackArr::Clear() noexcept {
+    delete[] data_;
+    data_ = nullptr;
+    capacity = 0;
+    current_index = -1;
 }

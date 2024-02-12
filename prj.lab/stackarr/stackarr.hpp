@@ -9,12 +9,17 @@ public:
     StackArr() = default;
     StackArr(const StackArr& rhs);
 
-    StackArr& operator=(const StackArr& rhs);
+    StackArr& operator=(const StackArr& rhs) = default;
 
-    void Push(Complex& rhs);
+    void Push(const Complex& rhs);
     void Pop() noexcept;
     Complex& Top();
-    bool IsEmpty() noexcept;
+
+    const Complex& Top() const;
+
+    void Clear() noexcept;
+
+    bool IsEmpty() const noexcept;
 
     ~StackArr() = default;
 private:
