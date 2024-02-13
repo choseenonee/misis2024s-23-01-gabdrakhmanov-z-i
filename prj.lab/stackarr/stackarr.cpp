@@ -77,3 +77,7 @@ void StackArr::Clear() noexcept {
     capacity = 0;
     current_index = -1;
 }
+
+StackArr::~StackArr() {
+    delete[] data_;
+}

@@ -21,7 +21,7 @@ public:
 
     bool IsEmpty() const noexcept;
 
-    ~StackArr() = default;
+    ~StackArr();
 private:
 //    текущий индекс - индекс последнего внесённого элемента (НЕ следующего)
     int current_index = -1;
