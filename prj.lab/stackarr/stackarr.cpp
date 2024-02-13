@@ -54,16 +54,15 @@ void StackArr::Pop() noexcept {
 
 Complex& StackArr::Top() {
     if (IsEmpty()) {
-        throw std::out_of_range("StackArr is empty");
+        throw std::logic_error("StackArr is empty");
     }
 
-    Complex& cmpl = data_[current_index];
-    return cmpl;
+    return data_[current_index];
 }
 
 const Complex& StackArr::Top() const {
     if (IsEmpty()) {
-        throw std::out_of_range("StackArr is empty");
+        throw std::logic_error("StackArr is empty");
     }
     return data_[current_index];
 }
