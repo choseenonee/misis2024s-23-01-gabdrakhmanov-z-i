@@ -8,24 +8,24 @@ StackArr::StackArr(const StackArr& rhs)
     }
 }
 
-//StackArr& StackArr::operator=(const StackArr& rhs) {
-//    if (capacity < rhs.capacity) {
-//        capacity = rhs.capacity;
-//        delete[] data_;
-//        data_ = new Complex[capacity];
-//        for (std::ptrdiff_t i = 0; i < capacity; i++) {
-//            data_[i] = rhs.data_[i];
-//        }
-//    } else {
-//        capacity = rhs.capacity;
-//        for (std::ptrdiff_t i = 0; i < capacity; i++) {
-//            data_[i] = rhs.data_[i];
-//        }
-//    }
-//    current_index = rhs.current_index;
-//
-//    return *this;
-//}
+StackArr& StackArr::operator=(const StackArr& rhs) {
+    if (capacity < rhs.capacity) {
+        capacity = rhs.capacity;
+        delete[] data_;
+        data_ = new Complex[capacity];
+        for (std::ptrdiff_t i = 0; i < capacity; i++) {
+            data_[i] = rhs.data_[i];
+        }
+    } else {
+        capacity = rhs.capacity;
+        for (std::ptrdiff_t i = 0; i < capacity; i++) {
+            data_[i] = rhs.data_[i];
+        }
+    }
+    current_index = rhs.current_index;
+
+    return *this;
+}
 
 void StackArr::Push(const Complex& rhs) {
     if (current_index + 1 < capacity && data_ != nullptr) {

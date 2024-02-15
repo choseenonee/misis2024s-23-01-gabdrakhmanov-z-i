@@ -1,5 +1,5 @@
-#ifndef STACK
-#define STACK
+#ifndef STACKARR
+#define STACKARR
 
 #include "complex/complex.hpp"
 #include <cstddef>
@@ -9,7 +9,7 @@ public:
     StackArr() = default;
     StackArr(const StackArr& rhs);
 
-    StackArr& operator=(const StackArr& rhs) = default;
+    StackArr& operator=(const StackArr& rhs);
 
     void Push(const Complex& rhs);
     void Pop() noexcept;
@@ -29,4 +29,4 @@ private:
     Complex* data_ = nullptr;
 };
 
-#endif //STACK
+#endif //STACKARR
