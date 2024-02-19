@@ -1,9 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include <stacklist/stacklist.hpp>
+#include <stacklst/stacklst.hpp>
 
 TEST_CASE("StackList ctor") {
-    StackList stack;
+    StackLst stack;
 
     CHECK(stack.IsEmpty());
 
@@ -23,8 +23,8 @@ TEST_CASE("StackList ctor") {
     CHECK(stack.Top() == first_complex);
 }
 
-TEST_CASE("StackList pop exception") {
-    StackList stack;
+TEST_CASE("StackLst pop exception") {
+    StackLst stack;
 
     Complex first_complex(1, 1);
 
@@ -41,8 +41,8 @@ TEST_CASE("StackList pop exception") {
     CHECK_THROWS(stack.Top());
 }
 
-TEST_CASE("StackList test") {
-    StackList my_stack;
+TEST_CASE("StackLst test") {
+    StackLst my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
@@ -58,12 +58,12 @@ TEST_CASE("StackList test") {
 
     Complex third_complex(1, 1);
 
-    StackList my_stack2;
+    StackLst my_stack2;
     my_stack2.Push(third_complex);
     my_stack = my_stack2;
     CHECK_EQ(my_stack.Top(), third_complex);
 
-    StackList a(my_stack);
+    StackLst a(my_stack);
     CHECK_EQ(a.Top(), third_complex);
 
     Complex fourth_complex(2.3, 7.3);
@@ -76,8 +76,8 @@ TEST_CASE("StackList test") {
     CHECK_EQ(my_stack.Top(), fifth_complex);
 }
 
-TEST_CASE("StackList test") {
-    StackList my_stack;
+TEST_CASE("StackLst test") {
+    StackLst my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
@@ -93,12 +93,12 @@ TEST_CASE("StackList test") {
 
     Complex third_complex(1, 1);
 
-    StackList my_stack2;
+    StackLst my_stack2;
     my_stack2.Push(third_complex);
     my_stack = my_stack2;
     CHECK_EQ(my_stack.Top(), third_complex);
 
-    StackList a(my_stack);
+    StackLst a(my_stack);
     CHECK_EQ(a.Top(), third_complex);
 
     Complex fourth_complex(2.3, 7.3);
@@ -110,8 +110,8 @@ TEST_CASE("StackList test") {
     my_stack.Push(fifth_complex);
     CHECK_EQ(my_stack.Top(), fifth_complex);
 
-    StackList eq1;
-    StackList eq2;
+    StackLst eq1;
+    StackLst eq2;
     eq1.Push(first_complex);
     eq1.Push(second_complex);
     eq1.Push(third_complex);

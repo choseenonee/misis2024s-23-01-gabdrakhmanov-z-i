@@ -1,14 +1,14 @@
-#ifndef STACKLIST
-#define STACKLIST
+#ifndef STACKLST
+#define STACKLST
 
 #include "complex/complex.hpp"
 
-class StackList {
+class StackLst {
 public:
-    StackList() = default;
-    StackList(const StackList& rhs);
+    StackLst() = default;
+    StackLst(const StackLst& rhs);
 
-    StackList& operator=(const StackList& rhs) noexcept;
+    StackLst& operator=(const StackLst& rhs) noexcept;
 
     void Push(const Complex& rhs);
     void Pop() noexcept;
@@ -20,7 +20,7 @@ public:
 
     bool IsEmpty() const noexcept;
 
-    ~StackList();
+    ~StackLst();
 private:
     struct Node {
         Complex value;
@@ -31,4 +31,4 @@ private:
     Node* last_ = nullptr;
 };
 
-#endif //STACKLIST
+#endif //STACKLST

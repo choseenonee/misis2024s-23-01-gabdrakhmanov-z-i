@@ -1,11 +1,11 @@
-#include "stacklist/stacklist.hpp"
+#include "stacklst/stacklst.hpp"
 
 
-bool StackList::IsEmpty() const noexcept {
+bool StackLst::IsEmpty() const noexcept {
     return last_ == nullptr;
 }
 
-void StackList::Push(const Complex& rhs) {
+void StackLst::Push(const Complex& rhs) {
     Node* newNodePointer = new Node;
 
     newNodePointer->value = rhs;
@@ -20,7 +20,7 @@ void StackList::Push(const Complex& rhs) {
     }
 }
 
-Complex& StackList::Top() {
+Complex& StackLst::Top() {
     if (!IsEmpty()) {
         return last_->value;
     } else {
@@ -29,7 +29,7 @@ Complex& StackList::Top() {
 }
 
 
-const Complex& StackList::Top() const {
+const Complex& StackLst::Top() const {
     if (!IsEmpty()) {
         return last_->value;
     } else {
@@ -38,7 +38,7 @@ const Complex& StackList::Top() const {
 }
 
 
-void StackList::Pop() noexcept {
+void StackLst::Pop() noexcept {
     delete last_;
     if (first_ == last_) {
         first_ = nullptr;
@@ -57,7 +57,7 @@ void StackList::Pop() noexcept {
 }
 
 
-StackList::StackList(const StackList& rhs) {
+StackLst::StackLst(const StackLst& rhs) {
     Node* pointer = rhs.first_;
     while (pointer != nullptr) {
         Complex cmpl = pointer->value;
@@ -67,7 +67,8 @@ StackList::StackList(const StackList& rhs) {
 }
 
 
-StackList& StackList::operator=(const StackList& rhs) noexcept {
+StackLst& StackLst::operator=(const StackLst& rhs) noexcept {
+    Clear();
     Node* pointer = rhs.first_;
     while (pointer != nullptr) {
         Complex cmpl = pointer->value;
@@ -78,13 +79,13 @@ StackList& StackList::operator=(const StackList& rhs) noexcept {
 }
 
 
-void StackList::Clear() noexcept {
+void StackLst::Clear() noexcept {
     while (!IsEmpty()) {
         Pop();
     }
 }
 
 
-StackList::~StackList() {
+StackLst::~StackLst() {
     Clear();
 }
