@@ -6,12 +6,15 @@
 class StackLst {
 public:
     StackLst() = default;
+
     StackLst(const StackLst& rhs);
 
     StackLst& operator=(const StackLst& rhs) noexcept;
 
     void Push(const Complex& rhs);
+
     void Pop() noexcept;
+
     Complex& Top();
 
     const Complex& Top() const;
