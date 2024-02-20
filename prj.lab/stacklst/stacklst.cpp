@@ -66,14 +66,42 @@ StackLst::StackLst(const StackLst& rhs) {
     }
 }
 
-
+// TODO: переписать чтобы было без Clear а по умному
 StackLst& StackLst::operator=(const StackLst& rhs) noexcept {
-    Clear();
-    Node* pointer = rhs.first_;
-    while (pointer != nullptr) {
-        Complex cmpl = pointer->value;
-        Push(cmpl);
-        pointer = pointer->next_node;
+    if (rhs.IsEmpty()) {
+        Clear();
+    } else {
+        Node* rhs_pointer = rhs.first_;
+        Node* lhs_pointer = first_;
+        if (lhs_pointer == nullptr) {
+            while (rhs_pointer != nullptr) {
+                Push(rhs_pointer->value);
+                rhs_pointer = rhs_pointer->next_node;
+            }
+        } else {
+            while (rhs_pointer != nullptr) {
+                lhs_pointer->value = rhs_pointer->value;
+                lhs_pointer = lhs_pointer->next_node;
+                rhs_pointer = rhs_pointer->next_node;
+                if (lhs_pointer == nullptr) {
+                    while (rhs_pointer != nullptr) {
+                        Push(rhs_pointer->value);
+                        rhs_pointer = rhs_pointer->next_node;
+                    }
+                }
+            }
+            if (lhs_pointer != nullptr) {
+                while (last_ != lhs_pointer) {
+                    Pop();
+                }
+                Node* refresh_pointer = first_;
+                while (refresh_pointer->next_node != lhs_pointer) {
+                    refresh_pointer = refresh_pointer->next_node;
+                }
+                last_ = refresh_pointer;
+                delete lhs_pointer;
+            }
+        }
     }
     return *this;
 }

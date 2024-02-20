@@ -128,3 +128,52 @@ TEST_CASE("StackLst test") {
     CHECK(eq1.IsEmpty());
     CHECK(eq2.IsEmpty());
 }
+
+TEST_CASE("stack list new copy func realisation") {
+    StackLst stackFirst;
+    StackLst stackSecond;
+
+    // first not empty, second is empty
+    Complex complexOne(1, 1);
+    Complex complexTwo(2, 2);
+    Complex complexThree(3, 3);
+    Complex complexFour(4, 4);
+
+    stackFirst.Push(complexOne);
+
+    stackFirst = stackSecond;
+    CHECK(stackFirst.IsEmpty());
+
+    stackFirst.Clear();
+    stackSecond.Clear();
+    // both not empty, first > second
+
+    stackFirst.Push(complexOne);
+    stackFirst.Push(complexTwo);
+    stackFirst.Push(complexFour);
+
+    stackSecond.Push(complexThree);
+
+    stackFirst = stackSecond;
+    CHECK_EQ(stackFirst.Top(), stackSecond.Top());
+
+    stackFirst.Clear();
+    stackSecond.Clear();
+    // both not empty, first < second
+    stackSecond.Push(complexOne);
+    stackSecond.Push(complexTwo);
+
+    stackFirst.Push(complexThree);
+
+    stackFirst = stackSecond;
+    CHECK_EQ(stackFirst.Top(), stackSecond.Top());
+
+    stackFirst.Clear();
+    stackSecond.Clear();
+    // first empty, second is not
+    stackSecond.Push(complexOne);
+    stackSecond.Push(complexTwo);
+
+    stackFirst = stackSecond;
+    CHECK_EQ(stackFirst.Top(), stackSecond.Top());
+}
