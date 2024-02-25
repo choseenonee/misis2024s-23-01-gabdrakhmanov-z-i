@@ -1,11 +1,11 @@
-#include "stacklst/stacklst.hpp"
+#include "QueueLst/QueueLst.hpp"
 
 
-bool StackLst::IsEmpty() const noexcept {
+bool QueueLst::IsEmpty() const noexcept {
     return last_ == nullptr;
 }
 
-void StackLst::Push(const Complex& rhs) {
+void QueueLst::Push(const Complex& rhs) {
     Node* newNodePointer = new Node;
 
     newNodePointer->value = rhs;
@@ -20,7 +20,7 @@ void StackLst::Push(const Complex& rhs) {
     }
 }
 
-Complex& StackLst::Top() {
+Complex& QueueLst::Top() {
     if (!IsEmpty()) {
         return last_->value;
     } else {
@@ -29,7 +29,7 @@ Complex& StackLst::Top() {
 }
 
 
-const Complex& StackLst::Top() const {
+const Complex& QueueLst::Top() const {
     if (!IsEmpty()) {
         return last_->value;
     } else {
@@ -38,26 +38,20 @@ const Complex& StackLst::Top() const {
 }
 
 
-void StackLst::Pop() noexcept {
-    delete last_;
+void QueueLst::Pop() noexcept {
     if (first_ == last_) {
+        delete first_;
         first_ = nullptr;
         last_ = nullptr;
     } else {
-        Node* pointer = first_;
-        while (true) {
-            if (pointer->next_node == last_) {
-                pointer->next_node = nullptr;
-                last_ = pointer;
-                break;
-            }
-            pointer = pointer->next_node;
-        }
+        Node* to_delete = first_;
+        first_ = first_->next_node;
+        delete to_delete;
     }
 }
 
 
-StackLst::StackLst(const StackLst& rhs) {
+QueueLst::QueueLst(const QueueLst& rhs) {
     Node* pointer = rhs.first_;
     while (pointer != nullptr) {
         Complex cmpl = pointer->value;
@@ -67,7 +61,7 @@ StackLst::StackLst(const StackLst& rhs) {
 }
 
 
-StackLst& StackLst::operator=(const StackLst& rhs) noexcept {
+QueueLst& QueueLst::operator=(const QueueLst& rhs) noexcept {
     if (rhs.IsEmpty()) {
         Clear();
     } else {
@@ -107,13 +101,13 @@ StackLst& StackLst::operator=(const StackLst& rhs) noexcept {
 }
 
 
-void StackLst::Clear() noexcept {
+void QueueLst::Clear() noexcept {
     while (!IsEmpty()) {
         Pop();
     }
 }
 
 
-StackLst::~StackLst() {
+QueueLst::~QueueLst() {
     Clear();
 }
