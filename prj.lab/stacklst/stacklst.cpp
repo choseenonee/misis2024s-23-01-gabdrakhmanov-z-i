@@ -1,8 +1,26 @@
 #include "stacklst/stacklst.hpp"
 
+StackLst::Node* StackLst::findLast() noexcept {
+    Node* pointer = head_;
+    if (pointer == nullptr) {
+        return nullptr;
+    }
+    while (pointer->next_node != nullptr) {
+        pointer = pointer->next_node;
+    }
+    return pointer;
+}
+
 
 bool StackLst::IsEmpty() const noexcept {
-    return last_ == nullptr;
+    Node* pointer = head_;
+    if (pointer == nullptr) {
+        return true;
+    }
+    while (pointer->next_node != nullptr) {
+        pointer = pointer->next_node;
+    }
+    return pointer == nullptr;
 }
 
 void StackLst::Push(const Complex& rhs) {
@@ -11,18 +29,18 @@ void StackLst::Push(const Complex& rhs) {
     newNodePointer->value = rhs;
     newNodePointer->next_node = nullptr;
 
-    if (first_ == nullptr) {
-        first_ = newNodePointer;
-        last_ = newNodePointer;
+    if (head_ == nullptr) {
+        head_ = newNodePointer;
     } else {
-        last_->next_node = newNodePointer;
-        last_ = newNodePointer;
+        Node* last = findLast();
+        last->next_node = newNodePointer;
     }
 }
 
 Complex& StackLst::Top() {
     if (!IsEmpty()) {
-        return last_->value;
+        Node* last = findLast();
+        return last->value;
     } else {
         throw std::logic_error("no elements on stack");
     }
@@ -31,7 +49,11 @@ Complex& StackLst::Top() {
 
 const Complex& StackLst::Top() const {
     if (!IsEmpty()) {
-        return last_->value;
+        Node* pointer = head_;
+        while (pointer->next_node != nullptr) {
+            pointer = pointer->next_node;
+        }
+        return pointer->value;
     } else {
         throw std::logic_error("no elements on stack");
     }
@@ -39,16 +61,15 @@ const Complex& StackLst::Top() const {
 
 
 void StackLst::Pop() noexcept {
-    delete last_;
-    if (first_ == last_) {
-        first_ = nullptr;
-        last_ = nullptr;
+    Node* last = findLast();
+    delete last;
+    if (head_ == last) {
+        head_ = nullptr;
     } else {
-        Node* pointer = first_;
+        Node* pointer = head_;
         while (true) {
-            if (pointer->next_node == last_) {
+            if (pointer->next_node == last) {
                 pointer->next_node = nullptr;
-                last_ = pointer;
                 break;
             }
             pointer = pointer->next_node;
@@ -58,7 +79,7 @@ void StackLst::Pop() noexcept {
 
 
 StackLst::StackLst(const StackLst& rhs) {
-    Node* pointer = rhs.first_;
+    Node* pointer = rhs.head_;
     while (pointer != nullptr) {
         Complex cmpl = pointer->value;
         Push(cmpl);
@@ -71,8 +92,8 @@ StackLst& StackLst::operator=(const StackLst& rhs) noexcept {
     if (rhs.IsEmpty()) {
         Clear();
     } else {
-        Node* rhs_pointer = rhs.first_;
-        Node* lhs_pointer = first_;
+        Node* rhs_pointer = rhs.head_;
+        Node* lhs_pointer = head_;
         if (lhs_pointer == nullptr) {
             while (rhs_pointer != nullptr) {
                 Push(rhs_pointer->value);
@@ -91,14 +112,17 @@ StackLst& StackLst::operator=(const StackLst& rhs) noexcept {
                 }
             }
             if (lhs_pointer != nullptr) {
-                while (last_ != lhs_pointer) {
+                Node* last = findLast();
+                while (last != lhs_pointer) {
                     Pop();
+                    last = findLast();
                 }
-                Node* refresh_pointer = first_;
+                Node* refresh_pointer = head_;
                 while (refresh_pointer->next_node != lhs_pointer) {
                     refresh_pointer = refresh_pointer->next_node;
                 }
-                last_ = refresh_pointer;
+                refresh_pointer->next_node = nullptr;
+//                last_ = refresh_pointer;
                 delete lhs_pointer;
             }
         }

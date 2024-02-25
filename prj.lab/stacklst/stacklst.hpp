@@ -30,8 +30,12 @@ private:
         Node* next_node = nullptr;
     };
 
-    Node* first_ = nullptr;
-    Node* last_ = nullptr;
+    Node* findLast() noexcept;
+
+    Node* head_ = nullptr;
+//    it was a mistake...
+//    Node* first_ = nullptr;
+//    Node* last_ = nullptr;
 };
 
 #endif //STACKLST
