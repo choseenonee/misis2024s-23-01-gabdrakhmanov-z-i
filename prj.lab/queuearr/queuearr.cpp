@@ -30,6 +30,16 @@ const Complex& QueueArr::Top() const {
 void QueueArr::Push(const Complex &rhs) {
     if (head_==-1) {
         head_++;
+        if (tail_==-1) {
+            tail_++;
+            if (data_ == nullptr) {
+                capacity = 2;
+                data_ = new Complex[capacity];
+            }
+            data_[tail_] = rhs;
+            size_++;
+            return;
+        }
     }
     if (tail_ > head_) {
         if (tail_ + 1 < capacity) {
