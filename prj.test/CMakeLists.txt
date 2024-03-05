@@ -12,6 +12,8 @@ add_executable(test_queue_list test_queue_lst.cpp)
 
 add_executable(test_queue_arr test_queue_arr.cpp)
 
+add_executable(test_queue_lst_pr test_queue_lst_pr.cpp)
+
 target_link_libraries(test_complex complex)
 target_link_libraries(test_rational rational)
 target_link_libraries(test_dynarr dynarr)
@@ -19,3 +21,4 @@ target_link_libraries(test_stack stackarr)
 target_link_libraries(test_stack_list stacklst)
 target_link_libraries(test_queue_list queuelst)
 target_link_libraries(test_queue_arr queuearr)
+target_link_libraries(test_queue_lst_pr queuelstpr)
