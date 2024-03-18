@@ -123,6 +123,24 @@ void QueueArr::Pop() noexcept {
     }
 }
 
+QueueArr::QueueArr(QueueArr&& rhs) noexcept
+        : head_(rhs.head_), tail_(rhs.tail_), size_(rhs.size_), capacity(rhs.capacity), data_(rhs.data_)
+{
+    rhs.head_ = -1;
+    rhs.tail_ = -1;
+    rhs.size_ = 0;
+    rhs.capacity = 0;
+    rhs.data_ = nullptr;
+}
+
+QueueArr& QueueArr::operator=(QueueArr &&rhs) noexcept {
+    std::swap(head_, rhs.head_);
+    std::swap(tail_, rhs.tail_);
+    std::swap(size_, rhs.size_);
+    std::swap(capacity, rhs.capacity);
+    std::swap(data_, rhs.data_);
+}
+
 QueueArr& QueueArr::operator=(const QueueArr& rhs) noexcept {
     size_ = rhs.size_;
     head_ = rhs.head_;

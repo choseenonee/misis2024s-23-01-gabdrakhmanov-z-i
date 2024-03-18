@@ -6,9 +6,11 @@
 class QueueArr {
 public:
     QueueArr() = default;
+    QueueArr(QueueArr&& rhs) noexcept;
 
     QueueArr(const QueueArr& rhs);
 
+    QueueArr& operator=(QueueArr&& rhs) noexcept;
     QueueArr& operator=(const QueueArr& rhs) noexcept;
 
     void Push(const Complex& rhs);

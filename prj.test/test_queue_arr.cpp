@@ -261,4 +261,59 @@ TEST_CASE("Cycle") {
     CHECK_NOTHROW(queue.Pop());
     CHECK_EQ(queue3.IsEmpty(), queue.IsEmpty());
     CHECK_EQ(queue3.IsEmpty(), true);
+}
+
+static const Complex c(2, 3);
+
+TEST_CASE("time test") {
+    long long diff = 0;
+
+    QueueArr queue1;
+    for (int i = 0; i < 10000; i++) {
+        queue1.Push(a);
     }
+    auto start = std::chrono::steady_clock::now();
+    QueueArr stack2(queue1);
+    auto end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack2.Top(), a);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff = duration.count();
+
+    start = std::chrono::steady_clock::now();
+    QueueArr stack3(std::move(queue1));
+    end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack3.Top(), a);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff -= duration.count();
+
+    CHECK(diff > duration.count() * 10);
+
+    QueueArr stack4;
+    for (int i = 0; i < 10000; i++) {
+        stack4.Push(a);
+    }
+    QueueArr stack5;
+    start = std::chrono::steady_clock::now();
+    stack5 = stack4;
+    end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack5.Top(), a);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff = duration.count();
+
+    start = std::chrono::steady_clock::now();
+    QueueArr stack6 = std::move(stack4);
+    end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack6.Top(), a);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff -= duration.count();
+
+    CHECK(diff > duration.count() * 10);
+}
