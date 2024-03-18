@@ -9,6 +9,22 @@ Rational::Rational(const int64_t num, const int64_t den) {
     fix();
 }
 
+Rational::Rational(Rational&& rhs) noexcept
+        : num_(rhs.num_), den_(rhs.den_)
+{
+    rhs.num_ = 0;
+    rhs.den_ = 1;
+}
+
+Rational& Rational::operator=(Rational&& rhs) noexcept {
+    if (this != &rhs) {
+        std::swap(num_, rhs.num_);
+        std::swap(den_, rhs.den_);
+    }
+
+    return *this;
+}
+
 Rational::Rational(int64_t num) {
     num_ = num;
     fix();

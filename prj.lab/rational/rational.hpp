@@ -10,8 +10,10 @@ public:
     Rational(const int64_t num, const int64_t den);
     explicit Rational(int64_t num);
     Rational(const Rational& rhs) = default;
+    Rational(Rational&& rhs) noexcept;
     ~Rational() = default;
     Rational& operator=(const Rational&) = default;
+    Rational& operator=(Rational&& rhs) noexcept;
 
     int64_t num() const noexcept;
     int64_t den() const noexcept;
