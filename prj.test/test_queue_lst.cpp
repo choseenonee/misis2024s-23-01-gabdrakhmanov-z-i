@@ -30,3 +30,60 @@ TEST_CASE("StackList ctor") {
 
     stack.Pop();
 }
+
+static const Complex a(1, 2);
+static const Complex b(1, 3);
+static const Complex c(2, 3);
+
+TEST_CASE("time test") {
+    long long diff = 0;
+
+    QueueLst queue1;
+    for (int i = 0; i < 10000; i++) {
+        queue1.Push(a);
+    }
+    auto start = std::chrono::steady_clock::now();
+    QueueLst stack2(queue1);
+    auto end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack2.Top(), a);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff = duration.count();
+
+    start = std::chrono::steady_clock::now();
+    QueueLst stack3(std::move(queue1));
+    end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack3.Top(), a);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff -= duration.count();
+
+    CHECK(diff > duration.count() * 10);
+
+    QueueLst stack4;
+    for (int i = 0; i < 10000; i++) {
+        stack4.Push(a);
+    }
+    QueueLst stack5;
+    start = std::chrono::steady_clock::now();
+    stack5 = stack4;
+    end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack5.Top(), a);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff = duration.count();
+
+    start = std::chrono::steady_clock::now();
+    QueueLst stack6 = std::move(stack4);
+    end = std::chrono::steady_clock::now();
+    CHECK_EQ(stack6.Top(), a);
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    diff -= duration.count();
+
+    CHECK(diff > duration.count() * 10);
+}

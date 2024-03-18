@@ -6,9 +6,11 @@
 class QueueLst {
 public:
     QueueLst() = default;
+    QueueLst(QueueLst&& rhs) noexcept;
 
     QueueLst(const QueueLst& rhs);
 
+    QueueLst& operator=(QueueLst&& rhs) noexcept;
     QueueLst& operator=(const QueueLst& rhs) noexcept;
 
     void Push(const Complex& rhs);

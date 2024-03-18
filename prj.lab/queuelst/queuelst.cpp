@@ -60,6 +60,21 @@ QueueLst::QueueLst(const QueueLst& rhs) {
     }
 }
 
+QueueLst::QueueLst(QueueLst&& rhs) noexcept
+        : first_(rhs.first_), last_(rhs.last_)
+{
+    rhs.first_ = nullptr;
+    rhs.last_ = nullptr;
+}
+
+QueueLst& QueueLst::operator=(QueueLst&& rhs) noexcept {
+    if (this != &rhs) {
+        std::swap(first_, rhs.first_);
+        std::swap(last_, rhs.last_);
+    }
+
+    return *this;
+}
 
 QueueLst& QueueLst::operator=(const QueueLst& rhs) noexcept {
     if (rhs.IsEmpty()) {
