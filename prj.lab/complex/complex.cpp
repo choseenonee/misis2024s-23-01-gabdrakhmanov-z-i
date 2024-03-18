@@ -6,6 +6,20 @@ Complex::Complex(const double real)
 {
 }
 
+Complex::Complex(Complex&& rhs) noexcept {
+    std::swap(re, rhs.re);
+    std::swap(im, rhs.im);
+}
+
+Complex& Complex::operator=(Complex&& rhs) noexcept {
+    if (this != &rhs) {
+        std::swap(re, rhs.re);
+        std::swap(im, rhs.im);
+    }
+
+    return *this;
+}
+
 Complex::Complex(const double real, const double imaginary)
         : re(real)
         , im(imaginary)

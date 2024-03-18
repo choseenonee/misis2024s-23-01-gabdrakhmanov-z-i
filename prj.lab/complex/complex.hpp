@@ -11,9 +11,12 @@ struct Complex {
     explicit Complex(const double real);
     Complex(const Complex&) = default;
 
+    Complex(Complex&& rhs) noexcept;
+
     Complex(const double real, const double imaginary);
 
     Complex& operator=(const Complex&) = default;
+    Complex& operator=(Complex&& rhs) noexcept;
 
     Complex operator-() const noexcept;
 
