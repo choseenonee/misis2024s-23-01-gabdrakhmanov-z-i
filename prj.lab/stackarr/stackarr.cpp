@@ -8,6 +8,24 @@ StackArr::StackArr(const StackArr& rhs)
     }
 }
 
+StackArr::StackArr(StackArr&& rhs) noexcept
+        : current_index(rhs.current_index), capacity(rhs.capacity), data_(rhs.data_)
+{
+    rhs.current_index = -1;
+    rhs.capacity = 0;
+    rhs.data_ = nullptr;
+}
+
+StackArr& StackArr::operator=(StackArr&& rhs) noexcept {
+    if (this != &rhs) {
+        std::swap(current_index, rhs.current_index);
+        std::swap(capacity, rhs.capacity);
+        std::swap(data_, rhs.data_);
+    }
+
+    return *this;
+}
+
 StackArr& StackArr::operator=(const StackArr& rhs) {
     if (capacity < rhs.capacity) {
         capacity = rhs.capacity;

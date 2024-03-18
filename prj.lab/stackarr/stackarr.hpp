@@ -7,8 +7,10 @@
 class StackArr {
 public:
     StackArr() = default;
+    StackArr(StackArr&& rhs) noexcept;
     StackArr(const StackArr& rhs);
 
+    StackArr& operator=(StackArr&& rhs) noexcept;
     StackArr& operator=(const StackArr& rhs);
 
     void Push(const Complex& rhs);
