@@ -11,6 +11,19 @@ StackLst::Node* StackLst::findLast() noexcept {
     return pointer;
 }
 
+StackLst::StackLst(StackLst&& rhs) noexcept
+        : head_(rhs.head_)
+{
+    rhs.head_ = nullptr;
+}
+
+StackLst& StackLst::operator=(StackLst &&rhs) noexcept {
+    if (this != &rhs) {
+        std::swap(head_, rhs.head_);
+    }
+
+    return *this;
+}
 
 bool StackLst::IsEmpty() const noexcept {
     Node* pointer = head_;

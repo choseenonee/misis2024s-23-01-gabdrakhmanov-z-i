@@ -6,9 +6,10 @@
 class StackLst {
 public:
     StackLst() = default;
-
+    StackLst(StackLst&& rhs) noexcept;
     StackLst(const StackLst& rhs);
 
+    StackLst& operator=(StackLst&& rhs) noexcept;
     StackLst& operator=(const StackLst& rhs) noexcept;
 
     void Push(const Complex& rhs);
