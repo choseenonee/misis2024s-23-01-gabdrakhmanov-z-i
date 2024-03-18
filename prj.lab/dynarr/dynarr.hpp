@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <cstddef>
+#include <utility>
 
 class DynArr {
 public:

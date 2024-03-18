@@ -76,7 +76,7 @@ DynArr& DynArr::operator=(DynArr&& rhs) noexcept {
         std::swap(data_, rhs.data_);
     }
 
-    return *this
+    return *this;
 }
 
 DynArr& DynArr::operator=(const DynArr& rhs) {

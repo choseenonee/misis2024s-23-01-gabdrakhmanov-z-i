@@ -65,3 +65,30 @@ TEST_CASE("dynarr indexing") {
     CHECK_THROWS(dynarr[2]);
     CHECK_THROWS(dynarr[-1]);
 }
+
+TEST_CASE("dynarr_m") {
+    DynArr dynarr(10000000);
+
+    auto start = std::chrono::steady_clock::now();
+    // 30 - 40 k microseconds
+    DynArr dynarr_plain = dynarr;
+
+    auto end = std::chrono::steady_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    start = std::chrono::steady_clock::now();
+
+    // LITERALLY 0 MICROSECONDS WTF
+    DynArr dynarr_m = std::move(dynarr);
+
+    end = std::chrono::steady_clock::now();
+
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+    CHECK_EQ(dynarr.Size(), 0);
+    CHECK_EQ(dynarr_m.Size(), 10000000);
+}
