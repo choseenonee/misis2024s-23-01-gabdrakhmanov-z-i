@@ -6,9 +6,11 @@
 class QueueLstPr {
 public:
     QueueLstPr() = default;
+    QueueLstPr(QueueLstPr&& rhs) noexcept;
 
     QueueLstPr(const QueueLstPr& rhs);
 
+    QueueLstPr& operator=(QueueLstPr&& rhs) noexcept;
     QueueLstPr& operator=(const QueueLstPr& rhs);
 
     const float& Top() const;

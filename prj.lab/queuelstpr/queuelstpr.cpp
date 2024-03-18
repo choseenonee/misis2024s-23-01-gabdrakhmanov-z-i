@@ -5,6 +5,22 @@ bool QueueLstPr::IsEmpty() const noexcept {
     return head_ == nullptr;
 }
 
+QueueLstPr::QueueLstPr(QueueLstPr&& rhs) noexcept
+            : head_(rhs.head_), tail_(rhs.tail_)
+{
+    rhs.head_ = nullptr;
+    rhs.tail_ = nullptr;
+}
+
+QueueLstPr& QueueLstPr::operator=(QueueLstPr &&rhs) noexcept {
+    if (this != &rhs) {
+        std::swap(head_, rhs.head_);
+        std::swap(tail_, rhs.tail_);
+    }
+
+    return *this;
+}
+
 QueueLstPr& QueueLstPr::operator=(const QueueLstPr& rhs) {
     Clear();
     if (!rhs.IsEmpty()) {
