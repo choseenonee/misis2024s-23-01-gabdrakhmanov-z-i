@@ -6,9 +6,9 @@ Complex::Complex(const double real)
 {
 }
 
-Complex::Complex(Complex&& rhs) noexcept {
-    std::swap(re, rhs.re);
-    std::swap(im, rhs.im);
+Complex::Complex(Complex&& rhs) noexcept
+        : re(rhs.re), im(rhs.im)
+{
 }
 
 Complex& Complex::operator=(Complex&& rhs) noexcept {
