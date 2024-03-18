@@ -82,6 +82,8 @@ TEST_CASE("dynarr_m") {
 
     // LITERALLY 0 MICROSECONDS WTF
     DynArr dynarr_m = std::move(dynarr);
+    // less than 10 microseconds
+    DynArr dynarr_m_ctor(dynarr);
 
     end = std::chrono::steady_clock::now();
 
