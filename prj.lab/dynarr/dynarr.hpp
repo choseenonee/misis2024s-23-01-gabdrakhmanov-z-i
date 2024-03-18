@@ -7,9 +7,11 @@
 class DynArr {
 public:
     DynArr() = default;
+    DynArr(DynArr&& rhs) noexcept;
     DynArr(const DynArr&);
     explicit DynArr(const std::ptrdiff_t size);
 
+    DynArr& operator=(DynArr&& rhs) noexcept;
     DynArr& operator=(const DynArr& rhs);
 
     void Resize(const std::ptrdiff_t size);
