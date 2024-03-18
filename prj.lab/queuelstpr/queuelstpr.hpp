@@ -17,7 +17,7 @@ public:
 
     void Push(const float& rhs);
 
-    void Pop();
+    void Pop() noexcept;
 
     bool IsEmpty() const noexcept;
 

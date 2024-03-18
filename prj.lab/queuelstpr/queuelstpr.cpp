@@ -27,13 +27,11 @@ QueueLstPr::QueueLstPr(const QueueLstPr& rhs) {
     }
 }
 
-void QueueLstPr::Pop() {
+void QueueLstPr::Pop() noexcept {
     if (!IsEmpty()) {
-        Node* to_delete = head_;
+        Node *to_delete = head_;
         head_ = head_->next_node;
         delete to_delete;
-    } else {
-        throw std::logic_error("trying to pop from empty queue");
     }
 }
 
