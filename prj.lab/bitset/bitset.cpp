@@ -3,6 +3,9 @@
 BitSet::BitSet(const int32_t size)
         : size_(size)
 {
+    if (size <= 0) {
+        throw std::logic_error("size can't be less than 1");
+    }
     int k = size / 32;
     if (size%32 != 0) {
         k++;
@@ -13,10 +16,10 @@ BitSet::BitSet(const int32_t size)
     }
 }
 
-BitSet::BitSet(const BitSet& rhs)
-        : size_(rhs.size_), data_(rhs.data_)
-{
-}
+//BitSet::BitSet(const BitSet& rhs)
+//        : size_(rhs.size_), data_(rhs.data_)
+//{
+//}
 
 BitSet::BitSet(BitSet&& rhs) noexcept {
     std::swap(data_, rhs.data_);
@@ -46,7 +49,9 @@ int32_t BitSet::Size() const noexcept {
 }
 
 void BitSet::Resize(const int32_t size) {
-    // количество блоков, если больше щас то поп если меньше то пуш
+    if (size <= 0) {
+        throw std::logic_error("size can't be less than 1");
+    }
 
     int k = size / 32;
     if (size%32 != 0) {
@@ -119,4 +124,76 @@ bool BitSet::Get(const int32_t index) const {
         return true;
     }
     return false;
+}
+
+BitSet& BitSet::operator&=(const BitSet& rhs) {
+    if (size_ != rhs.size_) {
+        throw std::logic_error("different sizes of bitsets, cant compare");
+    }
+
+    for (int i = 0; i < data_.size(); i++) {
+        data_[i] &= rhs.data_[i];
+    }
+
+    return *this;
+}
+
+BitSet& BitSet::operator|=(const BitSet& rhs) {
+    if (size_ != rhs.size_) {
+        throw std::logic_error("different sizes of bitsets, cant compare");
+    }
+
+    for (int i = 0; i < data_.size(); i++) {
+        data_[i] |= rhs.data_[i];
+    }
+
+    return *this;
+}
+
+BitSet& BitSet::operator^=(const BitSet& rhs) {
+    if (size_ != rhs.size_) {
+        throw std::logic_error("different sizes of bitsets, cant compare");
+    }
+
+    for (int i = 0; i < data_.size(); i++) {
+        data_[i] ^= rhs.data_[i];
+    }
+
+    return *this;
+}
+
+BitSet operator&(const BitSet& lhs, const BitSet& rhs) {
+    if (lhs.Size() != rhs.Size()) {
+        throw std::logic_error("cant compare two bitsets with different size");
+    }
+
+    BitSet res = lhs;
+
+    res &= rhs;
+
+    return res;
+}
+
+BitSet operator|(const BitSet& lhs, const BitSet& rhs) {
+    if (lhs.Size() != rhs.Size()) {
+        throw std::logic_error("cant compare two bitsets with different size");
+    }
+
+    BitSet res = lhs;
+
+    res |= rhs;
+
+    return res;
+}
+
+BitSet operator^(const BitSet& lhs, const BitSet& rhs) {
+    if (lhs.Size() != rhs.Size()) {
+        throw std::logic_error("cant compare two bitsets with different size");
+    }
+
+    BitSet res = lhs;
+
+    res ^= rhs;
+
+    return res;
 }

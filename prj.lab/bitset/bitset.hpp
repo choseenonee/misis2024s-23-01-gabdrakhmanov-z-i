@@ -9,7 +9,7 @@ public:
 
     BitSet(const int32_t size);
 
-    BitSet(const BitSet& rhs);
+    BitSet(const BitSet& rhs) = default;
 
     BitSet(BitSet&& rhs) noexcept;
 
@@ -27,11 +27,23 @@ public:
 
     void Fill(const bool v);
 
+    BitSet& operator&=(const BitSet& rhs);
+
+    BitSet& operator|=(const BitSet& rhs);
+
+    BitSet& operator^=(const BitSet& rhs);
+
     ~BitSet() = default;
 
 private:
     std::vector<uint32_t> data_ = std::vector<uint32_t>();
     int32_t size_ = 0;
 };
+
+BitSet operator&(const BitSet& lhs, const BitSet& rhs);
+
+BitSet operator|(const BitSet& lhs, const BitSet& rhs);
+
+BitSet operator^(const BitSet& lhs, const BitSet& rhs);
 
 #endif //MISIS2024S_23_01_GABDRAKHMANOV_Z_I_BITSET_H
