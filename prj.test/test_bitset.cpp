@@ -33,3 +33,30 @@ TEST_CASE("size ctor, resize, get, set") {
     CHECK_NOTHROW(bs.Set(32, true));
     CHECK_EQ(bs.Get(32), true);
 }
+
+TEST_CASE("math methods") {
+    BitSet lhs(10);
+    BitSet rhs(11);
+
+    CHECK_THROWS(rhs&lhs);
+
+    rhs.Resize(10);
+
+    CHECK(lhs == rhs);
+
+    lhs.Set(3, true);
+    rhs.Set(3, true);
+    rhs.Set(9, true);
+
+    rhs&=lhs;
+
+    CHECK_EQ(rhs.Get(9), false);
+    CHECK_EQ(rhs.Get(3), true);
+
+    rhs.Set(9, true);
+
+    lhs |= rhs;
+
+    CHECK_EQ(lhs.Get(3), true);
+    CHECK_EQ(lhs.Get(9), true);
+}
