@@ -13,7 +13,7 @@ public:
 
     BitSet(BitSet&& rhs) noexcept;
 
-    BitSet& operator=(const BitSet& rhs);
+    BitSet& operator=(const BitSet& rhs) = default;
 
     BitSet& operator=(BitSet&& rhs) noexcept;
 

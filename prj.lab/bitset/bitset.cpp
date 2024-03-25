@@ -16,23 +16,9 @@ BitSet::BitSet(const int32_t size)
     }
 }
 
-//BitSet::BitSet(const BitSet& rhs)
-//        : size_(rhs.size_), data_(rhs.data_)
-//{
-//}
-
 BitSet::BitSet(BitSet&& rhs) noexcept {
     std::swap(data_, rhs.data_);
     std::swap(size_, rhs.size_);
-}
-
-BitSet& BitSet::operator=(const BitSet& rhs) {
-    if (this != &rhs) {
-        size_ = rhs.size_;
-        data_ = std::vector<uint32_t>(rhs.data_);
-    }
-
-    return *this;
 }
 
 BitSet& BitSet::operator=(BitSet&& rhs) noexcept {
