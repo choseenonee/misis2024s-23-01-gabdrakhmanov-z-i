@@ -17,6 +17,10 @@ public:
 
     BitSet& operator=(BitSet&& rhs) noexcept;
 
+    bool operator==(const BitSet& rhs) const noexcept;
+
+    bool operator!=(const BitSet& rhs) const noexcept;
+
     int32_t Size() const noexcept;
 
     void Resize(const int32_t size);

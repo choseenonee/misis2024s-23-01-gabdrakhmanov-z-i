@@ -183,3 +183,21 @@ BitSet operator^(const BitSet& lhs, const BitSet& rhs) {
 
     return res;
 }
+
+bool BitSet::operator==(const BitSet& rhs) const noexcept {
+    if (size_ != rhs.size_) {
+        return false;
+    }
+
+    for (int i = 0; i < rhs.size_; i++) {
+        if (this->Get(i) != rhs.Get(i)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool BitSet::operator!=(const BitSet& rhs) const noexcept {
+    return !(*this==rhs);
+}
