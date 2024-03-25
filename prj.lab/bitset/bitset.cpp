@@ -72,7 +72,7 @@ void BitSet::Fill(const bool v) {
 }
 
 void BitSet::Set(const int32_t index, const bool v) {
-    if (index >= size_) {
+    if (index >= size_ || index < 0) {
         throw std::out_of_range("set index cant be more than size");
     }
 
@@ -92,7 +92,7 @@ void BitSet::Set(const int32_t index, const bool v) {
 }
 
 bool BitSet::Get(const int32_t index) const {
-    if (index >= size_) {
+    if (index >= size_ || index < 0) {
         throw std::out_of_range("set index cant be more than size");
     }
 
@@ -200,4 +200,13 @@ bool BitSet::operator==(const BitSet& rhs) const noexcept {
 
 bool BitSet::operator!=(const BitSet& rhs) const noexcept {
     return !(*this==rhs);
+}
+
+BitSet BitSet::operator~() {
+    BitSet res(*this);
+
+    for (int i = 0; i < res.data_.size(); i++) {
+        res.data_[i] = ~res.data_[i];
+    }
+    return res;
 }

@@ -37,6 +37,8 @@ public:
 
     BitSet& operator^=(const BitSet& rhs);
 
+    BitSet operator~();
+
     ~BitSet() = default;
 
 private:
