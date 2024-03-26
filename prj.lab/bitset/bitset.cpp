@@ -217,23 +217,18 @@ bool BitSet::operator[](const int32_t lhs) const {
 }
 
 BitSet::BitAccessor BitSet::operator[](const int32_t rhs) {
-    BitAccessor bia{};
-
-    if (rhs >= 0 && rhs < size_) {
-        bia.bst_ = this;
-        bia.index_ = rhs;
-    } else {
+    if (!(rhs >= 0 && rhs < size_)) {
         throw std::out_of_range("index out of range");
     }
 
-    return bia;
+    return {*this, rhs};
 }
 
 BitSet::BitAccessor& BitSet::BitAccessor::operator=(const bool& rhs) {
-    this->bst_->Set(this->index_, rhs);
+    bst_.Set(index_, rhs);
     return *this;
 }
 
 BitSet::BitAccessor::operator bool() const noexcept {
-    return this->bst_->Get(this->index_) == 1;
+    return bst_.Get(index_) == 1;
 }

@@ -41,7 +41,7 @@ public:
     bool operator[](const int32_t rhs) const;
 
     struct BitAccessor {
-        BitSet* bst_ = nullptr;
+        BitSet& bst_;
         int32_t index_ = 0;
 
         BitSet::BitAccessor& operator=(const bool& rhs);
