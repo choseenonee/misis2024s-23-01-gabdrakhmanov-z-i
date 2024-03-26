@@ -139,6 +139,8 @@ QueueArr& QueueArr::operator=(QueueArr &&rhs) noexcept {
     std::swap(size_, rhs.size_);
     std::swap(capacity, rhs.capacity);
     std::swap(data_, rhs.data_);
+
+    return *this;
 }
 
 QueueArr& QueueArr::operator=(const QueueArr& rhs) noexcept {
