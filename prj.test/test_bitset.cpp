@@ -360,3 +360,30 @@ TEST_CASE("operator[] both") {
 
     CHECK_EQ(a, true);
 }
+
+TEST_CASE("operator[] test") {
+    BitSet bitset(8);
+    CHECK_NOTHROW(bitset.Set(0, true));
+    CHECK_NOTHROW(bitset.Set(1, false));
+    CHECK_NOTHROW(bitset.Set(2, true));
+    CHECK_NOTHROW(bitset.Set(3, false));
+    CHECK_NOTHROW(bitset.Set(4, true));
+    CHECK_NOTHROW(bitset.Set(5, false));
+    CHECK_NOTHROW(bitset.Set(6, true));
+    CHECK_NOTHROW(bitset.Set(7, false));
+
+    CHECK_EQ(bitset[0], true);
+    CHECK_EQ(bitset[1], false);
+    CHECK_EQ(bitset[2], true);
+    CHECK_EQ(bitset[3], false);
+    CHECK_EQ(bitset[4], true);
+    CHECK_EQ(bitset[5], false);
+    CHECK_EQ(bitset[6], true);
+    CHECK_EQ(bitset[7], false);
+
+    bool temp = false;
+    for (int i = 0; i < 8; i++) {
+        temp = bitset[i];
+        CHECK_EQ(temp, bitset[i]);
+    }
+}

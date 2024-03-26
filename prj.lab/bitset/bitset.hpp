@@ -45,7 +45,7 @@ public:
         int32_t index_ = 0;
 
         BitSet::BitAccessor& operator=(const bool& rhs);
-        operator bool();
+        operator bool() const noexcept;
     };
 
     BitAccessor operator[](const int32_t rhs);

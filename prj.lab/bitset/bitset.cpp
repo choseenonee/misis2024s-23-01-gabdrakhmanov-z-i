@@ -234,6 +234,6 @@ BitSet::BitAccessor& BitSet::BitAccessor::operator=(const bool& rhs) {
     return *this;
 }
 
-BitSet::BitAccessor::operator bool() {
+BitSet::BitAccessor::operator bool() const noexcept {
     return this->bst_->Get(this->index_) == 1;
 }
