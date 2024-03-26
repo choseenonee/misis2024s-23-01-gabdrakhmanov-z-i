@@ -233,7 +233,7 @@ TEST_CASE("comparison test") {
     CHECK_NOTHROW(bitset.Set(4, true));
     CHECK_NOTHROW(bitset.Set(5, false));
     CHECK_NOTHROW(bitset.Set(6, true));
-    CHECK_NOTHROW(bitset.Set(7, false));
+    CHECK_NOTHROW(bitset.Set(7, true));
 
     BitSet bitset1(8);
     CHECK_EQ(bitset1.Size(), 8);
@@ -244,13 +244,18 @@ TEST_CASE("comparison test") {
     CHECK_NOTHROW(bitset1.Set(4, true));
     CHECK_NOTHROW(bitset1.Set(5, false));
     CHECK_NOTHROW(bitset1.Set(6, true));
-    CHECK_NOTHROW(bitset1.Set(7, false));
+    CHECK_NOTHROW(bitset1.Set(7, true));
 
     CHECK(bitset == bitset1);
 
-    CHECK_NOTHROW(bitset1.Set(0, false));
+//    CHECK_NOTHROW(bitset1.Set(0, false));
+
+    CHECK_NOTHROW(bitset1.Resize(7));
+    CHECK_NOTHROW(bitset1.Resize(8));
 
     CHECK(bitset != bitset1);
+
+    CHECK_NOTHROW(bitset.Set(7, false));
 
     BitSet bitset2(8);
     CHECK_EQ(bitset2.Size(), 8);
@@ -386,4 +391,26 @@ TEST_CASE("operator[] test") {
         temp = bitset[i];
         CHECK_EQ(temp, bitset[i]);
     }
+}
+
+TEST_CASE("resize зануляет лишнее ") {
+    BitSet bs(5);
+
+    bs.Set(4, true);
+
+    bs.Resize(4);
+    bs.Resize(5);
+
+    CHECK_EQ(bs.Get(4), false);
+
+    bs.Resize(35);
+
+    bs.Set(34, true);
+
+    CHECK_EQ(bs.Get(34), true);
+
+    bs.Resize(34);
+    bs.Resize(35);
+
+    CHECK_EQ(bs.Get(34), false);
 }

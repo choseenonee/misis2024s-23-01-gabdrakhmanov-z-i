@@ -53,6 +53,16 @@ void BitSet::Resize(const int32_t size) {
         }
     }
 
+    if (size < size_) {
+        int32_t mask_len = (size)%32;
+        uint32_t mask = 0;
+        for (int i = 0; i < mask_len; i++) {
+            mask += 1 << i;
+        }
+        int32_t tail = data_.size()-1;
+        data_[tail] = data_[tail] & mask;
+    }
+
     size_ = size;
 }
 
@@ -78,9 +88,6 @@ void BitSet::Set(const int32_t index, const bool v) {
     }
 
     int32_t block = index/32;
-    if (index%32 != 0 && block != 0) {
-        block++;
-    }
 
     int32_t index_in_block = index - block*32;
     if (v) {
@@ -98,9 +105,6 @@ bool BitSet::Get(const int32_t index) const {
     }
 
     int32_t block = index/32;
-    if (index%32 != 0 && block != 0) {
-        block++;
-    }
 
     int32_t index_in_block = index - block*32;
 
@@ -190,11 +194,17 @@ bool BitSet::operator==(const BitSet& rhs) const noexcept {
         return false;
     }
 
-    for (int i = 0; i < rhs.size_; i++) {
-        if (this->Get(i) != rhs.Get(i)) {
+    for (int i = 0; i < rhs.data_.size(); i++) {
+        if (data_[i] != rhs.data_[i]) {
             return false;
         }
     }
+
+//    for (int i = 0; i < rhs.size_; i++) {
+//        if (this->Get(i) != rhs.Get(i)) {
+//            return false;
+//        }
+//    }
 
     return true;
 }
