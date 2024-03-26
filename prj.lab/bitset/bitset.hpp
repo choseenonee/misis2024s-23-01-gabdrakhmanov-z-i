@@ -2,6 +2,7 @@
 #define MISIS2024S_23_01_GABDRAKHMANOV_Z_I_BITSET_H
 
 #include <vector>
+#include <cstdint>
 
 class BitSet {
 public:
@@ -36,6 +37,18 @@ public:
     BitSet& operator|=(const BitSet& rhs);
 
     BitSet& operator^=(const BitSet& rhs);
+
+    bool operator[](const int32_t rhs) const;
+
+    struct BitAccessor {
+        BitSet* bst_ = nullptr;
+        int32_t index_ = 0;
+
+        BitSet::BitAccessor& operator=(const bool& rhs);
+        operator bool();
+    };
+
+    BitAccessor operator[](const int32_t rhs);
 
     BitSet operator~();
 

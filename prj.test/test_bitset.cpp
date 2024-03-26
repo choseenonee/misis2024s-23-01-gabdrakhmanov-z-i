@@ -1,6 +1,6 @@
+#include <bitset/bitset.hpp>
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include <bitset/bitset.hpp>
 
 TEST_CASE("size ctor, resize, get, set") {
     BitSet bs;
@@ -341,4 +341,22 @@ TEST_CASE("time test") {
     diff -= duration.count();
 
     CHECK(diff > duration.count() * 10);
+}
+
+TEST_CASE("operator[] both") {
+    BitSet bs(10);
+
+    CHECK_THROWS(bs[50]);
+
+    bool a = bs[9];
+
+    CHECK_EQ(a, false);
+
+    CHECK_NOTHROW(bs[9] = true);
+
+    CHECK_EQ(a, false);
+
+    a = bs[9];
+
+    CHECK_EQ(a, true);
 }

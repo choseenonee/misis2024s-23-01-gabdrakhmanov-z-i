@@ -1,4 +1,5 @@
 #include "bitset.hpp"
+#include <stdexcept>
 
 BitSet::BitSet(const int32_t size)
         : size_(size)
@@ -209,4 +210,30 @@ BitSet BitSet::operator~() {
         res.data_[i] = ~res.data_[i];
     }
     return res;
+}
+
+bool BitSet::operator[](const int32_t lhs) const {
+    return bool(this->Get(lhs));
+}
+
+BitSet::BitAccessor BitSet::operator[](const int32_t rhs) {
+    BitAccessor bia{};
+
+    if (rhs >= 0 && rhs < size_) {
+        bia.bst_ = this;
+        bia.index_ = rhs;
+    } else {
+        throw std::out_of_range("index out of range");
+    }
+
+    return bia;
+}
+
+BitSet::BitAccessor& BitSet::BitAccessor::operator=(const bool& rhs) {
+    this->bst_->Set(this->index_, rhs);
+    return *this;
+}
+
+BitSet::BitAccessor::operator bool() {
+    return this->bst_->Get(this->index_) == 1;
 }
