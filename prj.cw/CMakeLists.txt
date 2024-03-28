@@ -1,0 +1,5 @@
+FIND_PACKAGE( opencv REQUIRED )
+INCLUDE_DIRECTORIES( ${OpenCV_INCLUDE_DIRS} )
+# target link opencv_....
+ADD_EXECUTABLE(blur main.cpp)
+TARGET_LINK_LIBRARIES (blur ${OpenCV_LIBS})
