@@ -22,8 +22,7 @@ using namespace cv;
 int main()
 {
     Mat src, src_gray;
-//    CommandLineParser parser( argc, argv, "{@input | fruits.jpg | input image}" );
-    src = imread( samples::findFile( "/Users/thechosenone/CV-photo-analyzer/blur_service/src/bad/second.jpg" ), IMREAD_COLOR ); // Load an image
+    src = imread( samples::findFile( "/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.cw/bad/second.jpg" ), IMREAD_COLOR ); // Load an image
     if( src.empty() )
     {
         std::cout << "Could not open or find the image!\n" << std::endl;
@@ -38,34 +37,24 @@ int main()
 
 //    cv::imshow("Display window", src_gray);
 
+//    cv::imshow("Display window", dst);
+
+//    waitKey(0);
+
     cv::Mat dst;
 
-    cv::Sobel(src_gray, dst, CV_16S, 1, 0, 3);
-
-//    cv::imshow("Display window", dst);
-
-//    waitKey(0);
-
     Mat show_dst_x;
-//    convertTo(dst, abs_dst);
-
-    dst.convertTo(show_dst_x, CV_8UC1, 0.5, 127);
-
-//    imshow("Display window", show_dst);
-
-//    waitKey(0);
-
-    cv::Sobel(src_gray, dst, CV_16S, 0, 1, 3);
-
-//    cv::imshow("Display window", dst);
-
-//    waitKey(0);
-
-//    convertTo(dst, abs_dst);
-
     Mat show_dst_y;
 
+    cv::Sobel(src_gray, dst, CV_16S, 1, 0, 3);
+    dst.convertTo(show_dst_x, CV_8UC1, 0.5, 127);
+
+    cv::Sobel(src_gray, dst, CV_16S, 0, 1, 3);
     dst.convertTo(show_dst_y, CV_8UC1, 0.5, 127);
+
+    imshow("Display window", show_dst_x);
+
+    waitKey(0);
 
     imshow("Display window", show_dst_y);
 
