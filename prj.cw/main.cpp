@@ -9,7 +9,9 @@ using namespace cv;
 int main()
 {
     Mat src, src_gray;
-    src = imread( samples::findFile( "/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.cw/bad/second.jpg" ), IMREAD_COLOR ); // Load an image
+    src = imread( samples::findFile( "/Users/thechosenone/CLionProjects/https:/github.com/choseenonee"
+                                     "/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.cw/"
+                                     "bad/second.jpg" ), IMREAD_COLOR );
     if( src.empty() )
     {
         std::cout << "Could not open or find the image!\n" << std::endl;
