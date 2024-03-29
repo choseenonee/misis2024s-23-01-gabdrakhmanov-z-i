@@ -4,15 +4,15 @@ add_executable(test_rational test_rational.cpp)
 
 add_executable(test_dynarr test_dynarr.cpp)
 
-add_executable(test_stack test_stack.cpp)
+add_executable(test_stack test_stackarr.cpp)
 
-add_executable(test_stack_list test_stack_list.cpp)
+add_executable(test_stack_list test_stacklst.cpp)
 
-add_executable(test_queue_list test_queue_lst.cpp)
+add_executable(test_queue_list test_queuelst.cpp)
 
-add_executable(test_queue_arr test_queue_arr.cpp)
+add_executable(test_queue_arr test_queuearr.cpp)
 
-add_executable(test_queue_lst_pr test_queue_lst_pr.cpp)
+add_executable(test_queue_lst_pr test_queuelstpr.cpp)
 
 add_executable(test_bitset test_bitset.cpp)
 
