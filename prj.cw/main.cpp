@@ -45,6 +45,7 @@ int main()
 
     Mat show_dst_x;
     Mat show_dst_y;
+    Mat show_dst_zero;
 
     cv::Sobel(src_gray, dst, CV_8U, 1, 0, 3);
     dst.convertTo(show_dst_x, CV_8UC1, 1, 0);
@@ -52,11 +53,19 @@ int main()
     cv::Sobel(src_gray, dst, CV_8U, 0, 1, 3);
     dst.convertTo(show_dst_y, CV_8UC1, 1, 0);
 
-    imshow("Display window", show_dst_x);
+    // костыль
+    dst.convertTo(show_dst_zero, CV_8UC1, 0, 0);
 
-    waitKey(0);
+    Mat output;
 
-    imshow("Display window", show_dst_y);
+    auto channels = std::vector<Mat>{show_dst_x, show_dst_y, show_dst_zero};
+
+    merge(channels, output);
+//    imshow("Display window", show_dst_x);
+//
+//    waitKey(0);
+
+    imshow("Display window", output);
 
     waitKey(0);
 
