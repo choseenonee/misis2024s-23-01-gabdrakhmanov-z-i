@@ -86,9 +86,17 @@ int main()
     gradientMagnitude = calculateGradientMagnitude(show_dst_x, show_dst_y);
 
 //     При необходимости можно преобразовать результат обратно в CV_8UC1
-//     gradientMagnitude.convertTo(gradientMagnitude, CV_8UC1, 255);
+     gradientMagnitude.convertTo(gradientMagnitude, CV_8UC1, 255);
 
-    imshow("ans", gradientMagnitude);
+    cv::Mat canny_edges;
+
+    int lowThreshold = 300;
+    const int ratio = 3;
+    const int kernel_size = 3;
+
+    Canny(gradientMagnitude, canny_edges, lowThreshold, ratio, kernel_size);
+
+    imshow("Canny edges", canny_edges);
 
     waitKey(0);
 
