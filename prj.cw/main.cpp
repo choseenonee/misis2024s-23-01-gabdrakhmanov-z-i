@@ -27,6 +27,20 @@ cv::Mat calculateGradientMagnitude(cv::Mat& xDeriv, cv::Mat& yDeriv) {
     return gradientMagnitude;
 }
 
+void mergeAndShow(cv::Mat& show_dst_x, cv::Mat& show_dst_y, cv::Mat& show_dst_zero) {
+    Mat output;
+
+    auto channels = std::vector<Mat>{show_dst_x, show_dst_y, show_dst_zero};
+
+    merge(channels, output);
+
+    imshow("Display window", output);
+
+    waitKey(0);
+}
+
+
+
 int main()
 {
     Mat src, src_gray;
@@ -65,19 +79,9 @@ int main()
     cv::Sobel(src_gray, dst, CV_8U, 0, 1, 3);
     dst.convertTo(show_dst_y, CV_8UC1, 1, 0);
 
-    // костыль
-//    dst.convertTo(show_dst_zero, CV_8UC1, 0, 0);
-//
-//    Mat output;
-//
-//    auto channels = std::vector<Mat>{show_dst_x, show_dst_y, show_dst_zero};
-//
-//    merge(channels, output);
+    dst.convertTo(show_dst_zero, CV_8UC1, 0, 0);
 
-//    imshow("Display window", output);
-//
-//    waitKey(0);
-
+    mergeAndShow(show_dst_x, show_dst_y, show_dst_zero);
 
     cv::Mat gradientMagnitude;
     gradientMagnitude = calculateGradientMagnitude(show_dst_x, show_dst_y);
