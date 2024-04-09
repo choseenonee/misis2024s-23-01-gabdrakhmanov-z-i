@@ -138,7 +138,7 @@ template<class T>
 StackLstT<T>::StackLstT(const StackLstT& rhs) {
     Node* pointer = rhs.head_;
     while (pointer != nullptr) {
-        Complex cmpl = pointer->value;
+        T cmpl = pointer->value;
         Push(cmpl);
         pointer = pointer->next_node;
     }
