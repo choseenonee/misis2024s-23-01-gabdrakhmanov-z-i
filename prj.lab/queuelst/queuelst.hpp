@@ -25,6 +25,8 @@ public:
 
     bool IsEmpty() const noexcept;
 
+    int Size() const noexcept;
+
     ~QueueLst();
 private:
     struct Node {

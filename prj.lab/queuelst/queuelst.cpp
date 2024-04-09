@@ -1,5 +1,16 @@
 #include "QueueLst/QueueLst.hpp"
 
+int QueueLst::Size() const noexcept {
+    int size = 0;
+
+    Node* pointer = first_;
+    while (pointer != nullptr) {
+        size++;
+        pointer = pointer->next_node;
+    }
+
+    return size;
+}
 
 bool QueueLst::IsEmpty() const noexcept {
     return last_ == nullptr;

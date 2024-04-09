@@ -2,6 +2,122 @@
 #include "doctest.h"
 #include <queuearr/queuearr.hpp>
 
+static const Complex a(1,1 );
+static const Complex b(3, 3);
+static const Complex c(2, 3);
+static const Complex d(4, 4);
+
+TEST_CASE("copy operator") {
+    QueueArr lhs;
+    QueueArr rhs;
+    // size equals
+    lhs.Push(a);
+    lhs.Push(b);
+
+    rhs.Push(c);
+    rhs.Push(d);
+
+    lhs = rhs;
+
+    CHECK_EQ(lhs.Size(), rhs.Size());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    CHECK_NOTHROW(lhs.Pop());
+    CHECK_NOTHROW(rhs.Pop());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    lhs.Clear();
+    rhs.Clear();
+
+    //lhs size < rhs size
+
+    lhs.Push(a);
+    lhs.Push(d);
+
+    rhs.Push(a);
+    rhs.Push(b);
+    rhs.Push(c);
+    rhs.Push(d);
+
+    lhs = rhs;
+
+    CHECK_EQ(lhs.Size(), rhs.Size());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    CHECK_NOTHROW(lhs.Pop());
+    CHECK_NOTHROW(rhs.Pop());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    CHECK_NOTHROW(lhs.Pop());
+    CHECK_NOTHROW(rhs.Pop());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    CHECK_NOTHROW(lhs.Pop());
+    CHECK_NOTHROW(rhs.Pop());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    lhs.Clear();
+    rhs.Clear();
+
+    //lhs size > rhs size
+
+    lhs.Push(a);
+    lhs.Push(d);
+    lhs.Push(c);
+    lhs.Push(b);
+
+    rhs.Push(a);
+    rhs.Push(c);
+
+    lhs = rhs;
+
+    CHECK_EQ(lhs.Size(), rhs.Size());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    CHECK_NOTHROW(lhs.Pop());
+    CHECK_NOTHROW(rhs.Pop());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    lhs.Clear();
+    rhs.Clear();
+
+    // lhs empty, rhs is not
+    rhs.Push(a);
+    rhs.Push(b);
+
+    lhs = rhs;
+
+    CHECK_EQ(lhs.Size(), rhs.Size());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    CHECK_NOTHROW(lhs.Pop());
+    CHECK_NOTHROW(rhs.Pop());
+
+    CHECK_EQ(lhs.Top(), rhs.Top());
+
+    //rhs is empty, rhs is not
+
+    lhs.Clear();
+    rhs.Clear();
+
+    lhs.Push(a);
+    lhs.Push(b);
+
+    lhs = rhs;
+
+    CHECK_EQ(lhs.Size(), rhs.Size());
+    CHECK(lhs.IsEmpty());
+}
+
 TEST_CASE("queueList ctor") {
     QueueArr queue;
 
@@ -54,13 +170,6 @@ TEST_CASE("queueList ctor") {
     CHECK(queue.IsEmpty());
 }
 
-//
-// Created by Alex on 27.02.2024.
-//
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
-
-#include <queuearr/queuearr.hpp>
 
 TEST_CASE("queuearr ctor") {
     QueueArr qa;
@@ -144,8 +253,8 @@ TEST_CASE("queuearr assignment") {
     CHECK(qa1.IsEmpty() == true);
 }
 
-Complex a(1, 2);
-Complex b(1, 3);
+//Complex a(1, 2);
+//Complex b(1, 3);
 
 TEST_CASE("Initialization") {
     QueueArr queue;
@@ -262,8 +371,6 @@ TEST_CASE("Cycle") {
     CHECK_EQ(queue3.IsEmpty(), queue.IsEmpty());
     CHECK_EQ(queue3.IsEmpty(), true);
 }
-
-static const Complex c(2, 3);
 
 TEST_CASE("time test") {
     long long diff = 0;
