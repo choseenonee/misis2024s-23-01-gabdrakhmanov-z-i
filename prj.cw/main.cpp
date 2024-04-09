@@ -24,6 +24,10 @@ cv::Mat calculateGradientMagnitude(cv::Mat& xDeriv, cv::Mat& yDeriv) {
     // Вычисляем квадратный корень из суммы квадратов
     cv::sqrt(sumOfSquares, gradientMagnitude);
 
+    imshow("Gradient magnitude", gradientMagnitude);
+
+    waitKey(0);
+
     return gradientMagnitude;
 }
 
