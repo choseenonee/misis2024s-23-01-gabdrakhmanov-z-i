@@ -1,0 +1,12 @@
+add_library(stacklstt INTERFACE stacklstt.hpp)
+
+#target_link_libraries(stacklstt complex)
+
+set_property(TARGET stacklstt PROPERTY CXX_STANDARD 20)
+
+target_include_directories(stacklstt INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        $<INSTALL_INTERFACE:include>
+)
+
+install(TARGETS stacklstt)
