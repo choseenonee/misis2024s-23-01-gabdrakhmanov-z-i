@@ -40,7 +40,6 @@ void mergeAndShow(cv::Mat& show_dst_x, cv::Mat& show_dst_y, cv::Mat& show_dst_ze
 }
 
 
-
 int main()
 {
     Mat src, src_gray;
@@ -65,7 +64,7 @@ int main()
             break;
     };
 
-    cvtColor( src, src_gray, COLOR_BGR2GRAY );
+    cvtColor(src, src_gray, COLOR_BGR2GRAY);
 
     cv::Mat dst;
 
