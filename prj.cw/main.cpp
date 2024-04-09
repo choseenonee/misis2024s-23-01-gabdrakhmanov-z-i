@@ -45,15 +45,41 @@ int main()
     dst.convertTo(show_dst_y, CV_8UC1, 1, 0);
 
     // костыль
-    dst.convertTo(show_dst_zero, CV_8UC1, 0, 0);
+//    dst.convertTo(show_dst_zero, CV_8UC1, 0, 0);
+//
+//    Mat output;
+//
+//    auto channels = std::vector<Mat>{show_dst_x, show_dst_y, show_dst_zero};
+//
+//    merge(channels, output);
 
-    Mat output;
+//    imshow("Display window", output);
+//
+//    waitKey(0);
 
-    auto channels = std::vector<Mat>{show_dst_x, show_dst_y, show_dst_zero};
+    // Преобразуем входные изображения в CV_32F для обработки
+    cv::Mat derivativeXFloat, derivativeYFloat;
+    show_dst_x.convertTo(derivativeXFloat, CV_32FC1, 1.0/255.0);
+    show_dst_y.convertTo(derivativeYFloat, CV_32FC1, 1.0/255.0);
 
-    merge(channels, output);
+    // Возводим производные в квадрат
+    cv::Mat derivativeXSquared, derivativeYSquared;
+    cv::pow(derivativeXFloat, 2, derivativeXSquared);
+    cv::pow(derivativeYFloat, 2, derivativeYSquared);
 
-    imshow("Display window", output);
+    // sumOfSquares if CV_32F
+    cv::Mat sumOfSquares;
+    cv::add(derivativeXSquared, derivativeYSquared, sumOfSquares);
+
+    cv::Mat gradientMagnitude;
+
+    // Вычисляем квадратный корень из суммы квадратов
+    cv::sqrt(sumOfSquares, gradientMagnitude);
+
+////     При необходимости можно преобразовать результат обратно в CV_8UC1
+//     gradientMagnitude.convertTo(gradientMagnitude, CV_8UC1, 255);
+//
+//    imshow("ans", gradientMagnitude);
 
     waitKey(0);
 
