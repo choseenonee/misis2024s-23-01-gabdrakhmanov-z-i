@@ -1,4 +1,4 @@
-CMake Warning (dev) at C:/Program Files/CMake/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at C:/Program Files/CMake/share/cmake-3.29/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (OpenCV)
   does not match the name of the calling package (opencv).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -8,4 +8,10 @@ Call Stack (most recent call first):
   D:/programs/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)
   prj.cw/CMakeLists.txt:1 (FIND_PACKAGE)
 This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    BUILD_WITH_SAMPLES
+
 
