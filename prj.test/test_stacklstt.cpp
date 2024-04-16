@@ -5,21 +5,28 @@
 
 #include <sstream>
 
-using StackLstComplex = StackLstT<Complex>;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stack = StackLstT<T>();
 
-TEST_CASE("StackList ctor") {
-    StackLstComplex stack;
+    T first{1};
+    T second{2};
+
+
+}
+
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stack;
 
     CHECK(stack.IsEmpty());
 
-    Complex first_complex(1, 1);
+    T first_complex{1};
 
     stack.Push(first_complex);
 
     CHECK_FALSE(stack.IsEmpty());
     CHECK(stack.Top() == first_complex);
 
-    Complex second_complex(2, 2);
+    T second_complex{2};
 
     stack.Push(second_complex);
 
@@ -28,14 +35,14 @@ TEST_CASE("StackList ctor") {
     CHECK(stack.Top() == first_complex);
 }
 
-TEST_CASE("StackLstComplex pop exception") {
-    StackLstComplex stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stack;
 
-    Complex first_complex(1, 1);
+    T first_complex{1};
 
     stack.Push(first_complex);
 
-    Complex second_complex(2, 2);
+    T second_complex{2};
 
     stack.Push(second_complex);
 
@@ -46,13 +53,13 @@ TEST_CASE("StackLstComplex pop exception") {
     CHECK_THROWS(stack.Top());
 }
 
-TEST_CASE("StackLstComplex test") {
-    StackLstComplex my_stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
-    Complex first_complex(3, 5);
-    Complex second_complex(2, 7);
+    T first_complex{1};
+    T second_complex{2};
 
     my_stack.Push(first_complex);
     my_stack.Push(second_complex);
@@ -61,19 +68,19 @@ TEST_CASE("StackLstComplex test") {
     my_stack.Pop();
     CHECK_EQ(my_stack.Top(), first_complex);
 
-    Complex third_complex(1, 1);
+    T third_complex{3};
 
-    StackLstComplex my_stack2;
+    StackLstT<T> my_stack2;
     my_stack2.Push(third_complex);
     my_stack = my_stack2;
     CHECK_EQ(my_stack.Top(), third_complex);
 
-    StackLstComplex a(my_stack);
+    StackLstT<T> a(my_stack);
     CHECK_EQ(a.Top(), third_complex);
 
-    Complex fourth_complex(2.3, 7.3);
+    T fourth_complex{4};
 
-    Complex fifth_complex(2.003, 0);
+    T fifth_complex{5};
 
     my_stack.Push(fourth_complex);
     CHECK_EQ(my_stack.Top(), fourth_complex);
@@ -81,13 +88,13 @@ TEST_CASE("StackLstComplex test") {
     CHECK_EQ(my_stack.Top(), fifth_complex);
 }
 
-TEST_CASE("StackLstComplex test") {
-    StackLstComplex my_stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
-    Complex first_complex(3, 5);
-    Complex second_complex(2, 7);
+    T first_complex{1};
+    T second_complex{2};
 
     my_stack.Push(first_complex);
     my_stack.Push(second_complex);
@@ -96,27 +103,27 @@ TEST_CASE("StackLstComplex test") {
     my_stack.Pop();
     CHECK_EQ(my_stack.Top(), first_complex);
 
-    Complex third_complex(1, 1);
+    T third_complex{3};
 
-    StackLstComplex my_stack2;
+    StackLstT<T> my_stack2;
     my_stack2.Push(third_complex);
     my_stack = my_stack2;
     CHECK_EQ(my_stack.Top(), third_complex);
 
-    StackLstComplex a(my_stack);
+    StackLstT<T> a(my_stack);
     CHECK_EQ(a.Top(), third_complex);
 
-    Complex fourth_complex(2.3, 7.3);
+    T fourth_complex{4};
 
-    Complex fifth_complex(2.003, 0);
+    T fifth_complex{5};
 
     my_stack.Push(fourth_complex);
     CHECK_EQ(my_stack.Top(), fourth_complex);
     my_stack.Push(fifth_complex);
     CHECK_EQ(my_stack.Top(), fifth_complex);
 
-    StackLstComplex eq1;
-    StackLstComplex eq2;
+    StackLstT<T> eq1;
+    StackLstT<T> eq2;
     eq1.Push(first_complex);
     eq1.Push(second_complex);
     eq1.Push(third_complex);
@@ -134,15 +141,15 @@ TEST_CASE("StackLstComplex test") {
     CHECK(eq2.IsEmpty());
 }
 
-TEST_CASE("stack list new copy func realisation") {
-    StackLstComplex stackFirst;
-    StackLstComplex stackSecond;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stackFirst;
+    StackLstT<T> stackSecond;
 
     // first not empty, second is empty
-    Complex complexOne(1, 1);
-    Complex complexTwo(2, 2);
-    Complex complexThree(3, 3);
-    Complex complexFour(4, 4);
+    T complexOne{1};
+    T complexTwo{2};
+    T complexThree{3};
+    T complexFour{4};
 
     stackFirst.Push(complexOne);
 
@@ -183,19 +190,18 @@ TEST_CASE("stack list new copy func realisation") {
     CHECK_EQ(stackFirst.Top(), stackSecond.Top());
 }
 
-static const Complex a(1, 2);
-static const Complex b(1, 3);
-static const Complex c(2, 3);
-
-TEST_CASE("time test") {
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    const T a{1};
+    const T b{2};
+    const T c{3};
     long long diff = 0;
 
-    StackLstComplex stack1;
+    StackLstT<T> stack1;
     for (int i = 0; i < 10000; i++) {
         stack1.Push(a);
     }
     auto start = std::chrono::steady_clock::now();
-    StackLstComplex stack2(stack1);
+    StackLstT<T> stack2(stack1);
     auto end = std::chrono::steady_clock::now();
     CHECK_EQ(stack2.Top(), a);
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -204,7 +210,7 @@ TEST_CASE("time test") {
     diff = duration.count();
 
     start = std::chrono::steady_clock::now();
-    StackLstComplex stack3(std::move(stack1));
+    StackLstT<T> stack3(std::move(stack1));
     end = std::chrono::steady_clock::now();
     CHECK_EQ(stack3.Top(), a);
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -214,11 +220,11 @@ TEST_CASE("time test") {
 
     CHECK(diff > duration.count() * 10);
 
-    StackLstComplex stack4;
+    StackLstT<T> stack4;
     for (int i = 0; i < 10000; i++) {
         stack4.Push(a);
     }
-    StackLstComplex stack5;
+    StackLstT<T> stack5;
     start = std::chrono::steady_clock::now();
     stack5 = stack4;
     end = std::chrono::steady_clock::now();
@@ -229,7 +235,7 @@ TEST_CASE("time test") {
     diff = duration.count();
 
     start = std::chrono::steady_clock::now();
-    StackLstComplex stack6 = std::move(stack4);
+    StackLstT<T> stack6 = std::move(stack4);
     end = std::chrono::steady_clock::now();
     CHECK_EQ(stack6.Top(), a);
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -240,31 +246,30 @@ TEST_CASE("time test") {
     CHECK(diff > duration.count() * 10);
 }
 
-using StackLstInt = StackLstT<int>;
 
-TEST_CASE("StackList ctor") {
-    StackLstInt stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stack;
 
     CHECK(stack.IsEmpty());
 
-    stack.Push(1);
+    stack.Push(T{1});
 
     CHECK_FALSE(stack.IsEmpty());
-    CHECK(stack.Top() == 1);
+    CHECK(stack.Top() == T{1});
 
-    stack.Push(2);
+    stack.Push(T{2});
 
     stack.Pop();
 
-    CHECK(stack.Top() == 1);
+    CHECK(stack.Top() == T{2});
 }
 
-TEST_CASE("StackLstInt pop exception") {
-    StackLstInt stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stack;
 
-    stack.Push(1);
+    stack.Push(T{1});
 
-    stack.Push(2);
+    stack.Push(T{2});
 
     stack.Pop();
     stack.Pop();
@@ -273,64 +278,70 @@ TEST_CASE("StackLstInt pop exception") {
     CHECK_THROWS(stack.Top());
 }
 
-TEST_CASE("StackLstComplex test") {
-    StackLstInt my_stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
-    my_stack.Push(1);
-    my_stack.Push(2);
+    my_stack.Push(T{1});
+    my_stack.Push(T{2});
 
-    CHECK_EQ(my_stack.Top(), 2);
+    CHECK_EQ(my_stack.Top(), T{2});
     my_stack.Pop();
-    CHECK_EQ(my_stack.Top(), 1);
+    CHECK_EQ(my_stack.Top(), T{1});
 
-    StackLstInt my_stack2;
-    my_stack2.Push(3);
+    StackLstT<T> my_stack2;
+    my_stack2.Push(T{3});
     my_stack = my_stack2;
-    CHECK_EQ(my_stack.Top(), 3);
+    CHECK_EQ(my_stack.Top(), T{3});
 
-    StackLstInt j(my_stack);
-    CHECK_EQ(j.Top(), 3);
+    StackLstT<T> j(my_stack);
+    CHECK_EQ(j.Top(), T{3});
 
 
-    my_stack.Push(4);
-    CHECK_EQ(my_stack.Top(), 4);
-    my_stack.Push(5);
-    CHECK_EQ(my_stack.Top(), 5);
+    my_stack.Push(T{4});
+    CHECK_EQ(my_stack.Top(), T{4});
+    my_stack.Push(T{5});
+    CHECK_EQ(my_stack.Top(), T{5});
 }
 
-TEST_CASE("StackLstComplex test") {
-    StackLstInt my_stack;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> my_stack;
     CHECK_THROWS(my_stack.Top());
     CHECK(my_stack.IsEmpty());
 
-    my_stack.Push(1);
-    my_stack.Push(2);
+    T first = T{1};
+    T second = T{2};
+    T third = T{3};
+    T fourth = T{4};
+    T fifth = T{5};
 
-    CHECK_EQ(my_stack.Top(), 2);
+    my_stack.Push(first);
+    my_stack.Push(second);
+
+    CHECK_EQ(my_stack.Top(), first);
     my_stack.Pop();
-    CHECK_EQ(my_stack.Top(), 1);
+    CHECK_EQ(my_stack.Top(), second);
 
-    StackLstInt my_stack2;
-    my_stack2.Push(3);
+    StackLstT<T> my_stack2;
+    my_stack2.Push(third);
     my_stack = my_stack2;
-    CHECK_EQ(my_stack.Top(), 3);
+    CHECK_EQ(my_stack.Top(), third);
 
-    StackLstInt a(my_stack);
-    CHECK_EQ(a.Top(), 3);
+    StackLstT<T> a(my_stack);
+    CHECK_EQ(a.Top(), third);
 
 
-    my_stack.Push(4);
-    CHECK_EQ(my_stack.Top(), 4);
-    my_stack.Push(5);
-    CHECK_EQ(my_stack.Top(), 5);
+    my_stack.Push(fourth);
+    CHECK_EQ(my_stack.Top(), fourth);
+    my_stack.Push(fifth);
+    CHECK_EQ(my_stack.Top(), fifth);
 
-    StackLstInt eq1;
-    StackLstInt eq2;
-    eq1.Push(1);
-    eq1.Push(2);
-    eq1.Push(3);
+    StackLstT<T> eq1;
+    StackLstT<T> eq2;
+    eq1.Push(first);
+    eq1.Push(second);
+    eq1.Push(third);
     eq2 = eq1;
     CHECK_EQ(eq1.Top(), eq2.Top());
     eq1.Pop();
@@ -345,12 +356,18 @@ TEST_CASE("StackLstComplex test") {
     CHECK(eq2.IsEmpty());
 }
 
-TEST_CASE("stack list new copy func realisation") {
-    StackLstInt stackFirst;
-    StackLstInt stackSecond;
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+    StackLstT<T> stackFirst;
+    StackLstT<T> stackSecond;
+
+    T first = T{1};
+    T second = T{2};
+    T third = T{3};
+    T fourth = T{4};
+    T fifth = T{5};
 
     // first not empty, second is empty
-    stackFirst.Push(1);
+    stackFirst.Push(first);
 
     stackFirst = stackSecond;
     CHECK(stackFirst.IsEmpty());
@@ -359,11 +376,11 @@ TEST_CASE("stack list new copy func realisation") {
     stackSecond.Clear();
     // both not empty, first > second
 
-    stackFirst.Push(1);
-    stackFirst.Push(2);
-    stackFirst.Push(4);
+    stackFirst.Push(first);
+    stackFirst.Push(second);
+    stackFirst.Push(fourth);
 
-    stackSecond.Push(3);
+    stackSecond.Push(third);
 
     stackFirst = stackSecond;
     CHECK_EQ(stackFirst.Top(), stackSecond.Top());
@@ -371,10 +388,10 @@ TEST_CASE("stack list new copy func realisation") {
     stackFirst.Clear();
     stackSecond.Clear();
     // both not empty, first < second
-    stackSecond.Push(1);
-    stackSecond.Push(2);
+    stackSecond.Push(first);
+    stackSecond.Push(second);
 
-    stackFirst.Push(3);
+    stackFirst.Push(third);
 
     stackFirst = stackSecond;
     CHECK_EQ(stackFirst.Top(), stackSecond.Top());
@@ -382,33 +399,39 @@ TEST_CASE("stack list new copy func realisation") {
     stackFirst.Clear();
     stackSecond.Clear();
     // first empty, second is not
-    stackSecond.Push(1);
-    stackSecond.Push(2);
+    stackSecond.Push(first);
+    stackSecond.Push(second);
 
     stackFirst = stackSecond;
     CHECK_EQ(stackFirst.Top(), stackSecond.Top());
 }
 
-TEST_CASE("time test") {
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
     long long diff = 0;
 
-    StackLstInt stack1;
+    T first = T{1};
+    T second = T{2};
+    T third = T{3};
+    T fourth = T{4};
+    T fifth = T{5};
+
+    StackLstT<T> stack1;
     for (int i = 0; i < 10000; i++) {
-        stack1.Push(1);
+        stack1.Push(first);
     }
     auto start = std::chrono::steady_clock::now();
-    StackLstInt stack2(stack1);
+    StackLstT<T> stack2(stack1);
     auto end = std::chrono::steady_clock::now();
-    CHECK_EQ(stack2.Top(), 1);
+    CHECK_EQ(stack2.Top(), first);
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
     diff = duration.count();
 
     start = std::chrono::steady_clock::now();
-    StackLstInt stack3(std::move(stack1));
+    StackLstT<T> stack3(std::move(stack1));
     end = std::chrono::steady_clock::now();
-    CHECK_EQ(stack3.Top(), 1);
+    CHECK_EQ(stack3.Top(), first);
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
@@ -416,24 +439,24 @@ TEST_CASE("time test") {
 
     CHECK(diff > duration.count() * 10);
 
-    StackLstInt stack4;
+    StackLstT<T> stack4;
     for (int i = 0; i < 10000; i++) {
-        stack4.Push(1);
+        stack4.Push(first);
     }
-    StackLstInt stack5;
+    StackLstT<T> stack5;
     start = std::chrono::steady_clock::now();
     stack5 = stack4;
     end = std::chrono::steady_clock::now();
-    CHECK_EQ(stack5.Top(), 1);
+    CHECK_EQ(stack5.Top(), first);
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
     diff = duration.count();
 
     start = std::chrono::steady_clock::now();
-    StackLstInt stack6 = std::move(stack4);
+    StackLstT<T> stack6 = std::move(stack4);
     end = std::chrono::steady_clock::now();
-    CHECK_EQ(stack6.Top(), 1);
+    CHECK_EQ(stack6.Top(), first);
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
