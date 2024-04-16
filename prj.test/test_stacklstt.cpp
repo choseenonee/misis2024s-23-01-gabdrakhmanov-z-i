@@ -3,30 +3,42 @@
 #include <complex/complex.hpp>
 #include <stacklstt/stacklstt.hpp>
 
+#include <string>
 #include <sstream>
 
-TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
-    StackLstT<T> stack = StackLstT<T>();
-
-    T first{1};
-    T second{2};
-
-
+template<class T>
+T getFirst() {
+    return T{1};
+}
+template<>
+std::string getFirst() {
+    std::string a = "hello";
+    return a;
 }
 
-TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
+template<class T>
+T getSecond() {
+    return T{2};
+}
+template<>
+std::string getSecond() {
+    std::string a = "world";
+    return a;
+}
+
+TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex, std::string) {
     StackLstT<T> stack;
 
     CHECK(stack.IsEmpty());
 
-    T first_complex{1};
+    T first_complex = getFirst<T>();
 
     stack.Push(first_complex);
 
     CHECK_FALSE(stack.IsEmpty());
     CHECK(stack.Top() == first_complex);
 
-    T second_complex{2};
+    T second_complex = getSecond<T>();
 
     stack.Push(second_complex);
 
@@ -261,7 +273,7 @@ TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, 
 
     stack.Pop();
 
-    CHECK(stack.Top() == T{2});
+    CHECK(stack.Top() == T{1});
 }
 
 TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, Complex) {
@@ -319,9 +331,9 @@ TEST_CASE_TEMPLATE("signed integers stuff", T, char, short, int, long long int, 
     my_stack.Push(first);
     my_stack.Push(second);
 
-    CHECK_EQ(my_stack.Top(), first);
-    my_stack.Pop();
     CHECK_EQ(my_stack.Top(), second);
+    my_stack.Pop();
+    CHECK_EQ(my_stack.Top(), first);
 
     StackLstT<T> my_stack2;
     my_stack2.Push(third);
