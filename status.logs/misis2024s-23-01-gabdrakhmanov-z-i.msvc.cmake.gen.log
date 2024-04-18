@@ -29,6 +29,6 @@
 -- Found GIF: optimized;D:/programs/vcpkg/installed/x64-windows/lib/gif.lib;debug;D:/programs/vcpkg/installed/x64-windows/debug/lib/gif.lib (found version "5.2.1")
 -- Found LibArchive: D:/programs/vcpkg/installed/x64-windows/debug/lib/archive.lib (found version "3.6.1")
 -- Found OpenCV: D:/programs/vcpkg/installed/x64-windows (found version "4.7.0")
--- Configuring done (9.1s)
--- Generating done (1.2s)
+-- Configuring done (8.8s)
+-- Generating done (1.3s)
 -- Build files have been written to: D:/.dima/misis2023f-23-check/misis2024s-23-01-gabdrakhmanov-z-i/build.check
