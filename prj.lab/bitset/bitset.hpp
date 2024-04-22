@@ -63,7 +63,7 @@ public:
 
     ~BitSet() = default;
 
-    std::ostream& WriteTxt(std::ostream& rhs);
+    std::ostream& WriteTxt(std::ostream& rhs) const noexcept;
     std::ostream& WriteBinary(std::ostream& rhs) const noexcept;
     std::istream& ReadTxt(std::istream& rhs);
     std::istream& ReadBinary(std::istream& rhs);
@@ -80,7 +80,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream& ostrm, const BitSet& rhs)
 {
-    return rhs.WriteBinary(ostrm);
+    return rhs.WriteTxt(ostrm);
 }
 
 inline std::istream& operator>>(std::istream& istrm, BitSet& rhs)

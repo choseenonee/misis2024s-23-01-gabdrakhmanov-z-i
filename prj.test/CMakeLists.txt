@@ -16,6 +16,8 @@ add_executable(test_queue_lst_pr test_queuelstpr.cpp)
 
 add_executable(test_bitset test_bitset.cpp)
 
+add_executable(test_bitset_txt test_bitset_txt.cpp)
+
 add_executable(test_template test_stacklstt.cpp)
 
 target_link_libraries(test_complex complex)
@@ -27,4 +29,5 @@ target_link_libraries(test_queue_list queuelst)
 target_link_libraries(test_queue_arr queuearr)
 target_link_libraries(test_queue_lst_pr queuelstpr)
 target_link_libraries(test_bitset bitset)
+target_link_libraries(test_bitset_txt bitset)
 target_link_libraries(test_template stacklstt complex)
