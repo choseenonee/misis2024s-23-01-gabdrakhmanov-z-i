@@ -1,6 +1,7 @@
 #include <bitset/bitset.hpp>
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
+#include <sstream>
 
 TEST_CASE("size ctor, resize, get, set") {
     BitSet bs;
@@ -413,4 +414,52 @@ TEST_CASE("resize зануляет лишнее ") {
     bs.Resize(35);
 
     CHECK_EQ(bs.Get(34), false);
+}
+
+TEST_CASE("input out binary 1") {
+    BitSet bs(10);
+    bs.Set(7, true);
+
+    std::stringstream strm;
+
+    strm << bs;
+
+    BitSet bs2{};
+
+    strm >> bs2;
+
+    CHECK(bs == bs2);
+}
+
+TEST_CASE("input out binary 2") {
+    BitSet bs(33);
+    bs.Set(8, true);
+    bs.Set(32, true);
+
+    std::stringstream strm;
+
+    strm << bs;
+
+    BitSet bs2{};
+
+    strm >> bs2;
+
+    CHECK(bs == bs2);
+}
+
+TEST_CASE("input out binary 3") {
+    BitSet bs(66);
+    bs.Set(1, true);
+    bs.Set(35, true);
+    bs.Set(65, true);
+
+    std::stringstream strm;
+
+    strm << bs;
+
+    BitSet bs2{};
+
+    strm >> bs2;
+
+    CHECK(bs == bs2);
 }

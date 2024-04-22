@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <iostream>
 
 class BitSet {
 public:
@@ -62,10 +63,30 @@ public:
 
     ~BitSet() = default;
 
+    std::ostream& WriteTxt(std::ostream& rhs);
+    std::ostream& WriteBinary(std::ostream& rhs) const noexcept;
+    std::istream& ReadTxt(std::istream& rhs);
+    std::istream& ReadBinary(std::istream& rhs) noexcept;
+
 private:
+    char start_mark_ = 's';
+    char end_mark_ = 'f';
+
+    std::ostream& writeBinaryData(std::ostream& rhs) const noexcept;
+
     std::vector<uint32_t> data_ = std::vector<uint32_t>();
     int32_t size_ = 0;
 };
+
+inline std::ostream& operator<<(std::ostream& ostrm, const BitSet& rhs)
+{
+    return rhs.WriteBinary(ostrm);
+}
+
+inline std::istream& operator>>(std::istream& istrm, BitSet& rhs)
+{
+    return rhs.ReadBinary(istrm);
+}
 
 BitSet operator&(const BitSet& lhs, const BitSet& rhs);
 

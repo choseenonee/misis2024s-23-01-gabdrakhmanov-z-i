@@ -1,5 +1,7 @@
 #include "bitset.hpp"
 #include <stdexcept>
+#include <sstream>
+
 
 BitSet::BitSet(const int32_t size)
         : size_(size)
@@ -233,3 +235,76 @@ BitSet::BitAccessor BitSet::operator[](const int32_t rhs) {
 
     return {*this, rhs};
 }
+
+std::ostream& BitSet::writeBinaryData(std::ostream& rhs) const noexcept {
+    uint8_t window_base = ~uint8_t(0);
+
+    for (int i = data_.size() - 1; i >= 0; i--) {
+        for (int k = 3; k >= 0; k--) {
+            uint32_t window = window_base << (8 * k);
+            auto boba = uint8_t((data_[i] & window) >> (8 * k));
+            rhs << boba;
+        }
+    }
+
+    return rhs;
+}
+
+std::ostream& BitSet::WriteBinary(std::ostream& rhs) const noexcept {
+    uint8_t even_mark = size_%2;
+
+    rhs << start_mark_ << size_;
+
+    writeBinaryData(rhs);
+
+    rhs << even_mark << end_mark_;
+
+    return rhs;
+};
+
+std::istream& BitSet::ReadBinary(std::istream& rhs) noexcept {
+    char start_mark = 0;
+    uint32_t size = 0;
+    uint8_t even_mark = 0;
+    char end_mark = 0;
+
+    rhs >> start_mark >> size;
+
+    Fill(false);
+
+    uint32_t length = size/32;
+    if (size%32 != 0) {
+        length++;
+    }
+    uint32_t current_length = size_/32;
+    if (size_%32 != 0) {
+        current_length++;
+    }
+
+    if (current_length > length) {
+        while (current_length != length) {
+            data_.pop_back();
+            current_length--;
+        }
+    } else if (current_length < length) {
+        while (current_length != length) {
+            data_.push_back(0);
+            current_length++;
+        }
+    }
+
+    size_ = size;
+
+    uint8_t block = 0;
+    for (int i = data_.size() - 1; i >= 0; i--) {
+        for (int k = 3; k >= 0; k--) {
+            rhs >> block;
+            uint32_t mask = block << (8 * k);
+            data_[i] |= mask;
+        }
+    }
+
+    rhs >> even_mark >> end_mark;
+
+    return rhs;
+};
