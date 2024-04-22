@@ -262,13 +262,21 @@ std::ostream& BitSet::WriteBinary(std::ostream& rhs) const noexcept {
     return rhs;
 };
 
-std::istream& BitSet::ReadBinary(std::istream& rhs) noexcept {
+std::istream& BitSet::ReadBinary(std::istream& rhs) {
     char start_mark = 0;
     uint32_t size = 0;
     uint8_t even_mark = 0;
     char end_mark = 0;
 
     rhs >> start_mark >> size;
+
+    if (start_mark != start_mark_) {
+        throw std::logic_error("start mark isnt correct");
+    }
+
+    if (size <= 0) {
+        throw std::logic_error("size cant be less than 1");
+    }
 
     Fill(false);
 
@@ -305,6 +313,13 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) noexcept {
     }
 
     rhs >> even_mark >> end_mark;
+
+    if (size_%2 != even_mark) {
+        throw std::logic_error("even_mark doesnt match size eveness");
+    }
+    if (end_mark != end_mark_) {
+        throw std::logic_error("end mark isnt correct");
+    }
 
     return rhs;
 };

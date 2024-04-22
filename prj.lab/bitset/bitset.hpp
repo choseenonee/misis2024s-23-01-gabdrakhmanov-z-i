@@ -66,7 +66,7 @@ public:
     std::ostream& WriteTxt(std::ostream& rhs);
     std::ostream& WriteBinary(std::ostream& rhs) const noexcept;
     std::istream& ReadTxt(std::istream& rhs);
-    std::istream& ReadBinary(std::istream& rhs) noexcept;
+    std::istream& ReadBinary(std::istream& rhs);
 
 private:
     char start_mark_ = 's';
