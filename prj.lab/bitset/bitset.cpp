@@ -250,8 +250,22 @@ std::ostream& BitSet::writeBinaryData(std::ostream& rhs) const noexcept {
     return rhs;
 }
 
+uint8_t isEven(const std::vector<uint32_t>& rhs) {
+    uint8_t count = 0;
+    for (uint32_t i : rhs) {
+        for (int k = 0; k < 31; k++) {
+            uint32_t bit = (i & (1 << k));
+            if (bit > 0) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
 std::ostream& BitSet::WriteBinary(std::ostream& rhs) const noexcept {
-    uint8_t even_mark = size_%2;
+    uint8_t even_mark = isEven(data_);
 
     rhs << start_mark_ << size_;
 
@@ -314,7 +328,7 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) {
 
     rhs >> even_mark >> end_mark;
 
-    if (size_%2 != even_mark) {
+    if (isEven(data_) != even_mark) {
         throw std::logic_error("even_mark doesnt match size eveness");
     }
     if (end_mark != end_mark_) {
