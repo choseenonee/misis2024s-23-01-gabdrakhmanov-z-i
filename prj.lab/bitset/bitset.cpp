@@ -233,12 +233,3 @@ BitSet::BitAccessor BitSet::operator[](const int32_t rhs) {
 
     return {*this, rhs};
 }
-
-BitSet::BitAccessor& BitSet::BitAccessor::operator=(const bool& rhs) {
-    bst_.Set(index_, rhs);
-    return *this;
-}
-
-BitSet::BitAccessor::operator bool() const noexcept {
-    return bst_.Get(index_) == 1;
-}

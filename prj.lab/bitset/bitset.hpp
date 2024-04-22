@@ -40,12 +40,20 @@ public:
 
     bool operator[](const int32_t rhs) const;
 
-    struct BitAccessor {
+    class BitAccessor {
+    public:
+        BitAccessor() = delete;
+        BitAccessor(BitSet& bst, const std::int32_t idx) noexcept : bst_(bst), idx_(idx) {}
+        ~BitAccessor() = default;
+        BitAccessor(const BitAccessor&) = delete;
+        BitAccessor(BitAccessor&&) noexcept = default;
+        BitAccessor& operator=(const BitAccessor&) = delete;
+        BitAccessor& operator=(BitAccessor&&) noexcept = default;
+        BitAccessor& operator=(const bool v) { bst_.Set(idx_, v); return *this; }
+        operator bool() const { return bst_.Get(idx_); }
+    private:
         BitSet& bst_;
-        int32_t index_ = 0;
-
-        BitSet::BitAccessor& operator=(const bool& rhs);
-        operator bool() const noexcept;
+        const std::int32_t idx_ = -1;
     };
 
     BitAccessor operator[](const int32_t rhs);

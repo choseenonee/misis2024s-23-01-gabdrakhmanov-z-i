@@ -98,7 +98,7 @@ int main()
     const int ratio = 3;
     const int kernel_size = 3;
 
-    Canny(gradientMagnitude, canny_edges, lowThreshold, ratio, kernel_size);
+    Canny(src_gray, canny_edges, lowThreshold, ratio, kernel_size);
 
     imshow("Canny edges", canny_edges);
 
