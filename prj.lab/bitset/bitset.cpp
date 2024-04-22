@@ -328,23 +328,34 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
     uint8_t mask_base = uint8_t(1);
 
     for (int i = data_.size() - 1; i >=0; i--) {
-        uint32_t line = 1;
         for (int k = 3; k >= 0; k--) {
             uint32_t mask = (mask_base << k*8);
             for (int d = 7; d >= 0; d--) {
                 uint32_t cur_elem = (data_[i] & (mask << d));
-                if (cur_elem > 0) {
-                    rhs << 1;
+                uint32_t cur_pos = (32 * i) + (k * 8) + d;
+                if (cur_pos <= size_) {
+                    if (cur_elem > 0) {
+                        rhs << 1;
+                    } else {
+                        rhs << 0;
+                    }
+//                }
                 } else {
-                    rhs << 0;
+                    rhs << " ";
                 }
             }
             rhs << " ";
         }
-        rhs << "| " << line << std::endl;
+        rhs << "| " << data_.size() - i << std::endl;
     }
 
     rhs << "=" << std::endl;
 
     return rhs;
 }
+
+//std::ostream& BitSet::ReadTxt(std::istream& rhs) {
+//
+//
+//    return rhs;
+//}
