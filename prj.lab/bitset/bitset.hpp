@@ -80,7 +80,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream& ostrm, const BitSet& rhs)
 {
-    return rhs.WriteTxt(ostrm);
+    return rhs.WriteBinary(ostrm);
 }
 
 inline std::istream& operator>>(std::istream& istrm, BitSet& rhs)

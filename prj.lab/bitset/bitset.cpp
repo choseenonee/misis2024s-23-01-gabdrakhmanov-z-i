@@ -239,8 +239,8 @@ BitSet::BitAccessor BitSet::operator[](const int32_t rhs) {
 std::ostream& BitSet::writeBinaryData(std::ostream& rhs) const noexcept {
     uint8_t window_base = ~uint8_t(0);
 
-    for (int i = data_.size() - 1; i >= 0; i--) {
-        for (int k = 3; k >= 0; k--) {
+    for (int i = 0; i < data_.size(); i++) {
+        for (int k = 0; k < 4; k++) {
             uint32_t window = window_base << (8 * k);
             auto boba = uint8_t((data_[i] & window) >> (8 * k));
             rhs << boba;
@@ -318,8 +318,8 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) {
     size_ = size;
 
     uint8_t block = 0;
-    for (int i = data_.size() - 1; i >= 0; i--) {
-        for (int k = 3; k >= 0; k--) {
+    for (int i = 0; i < data_.size(); i++) {
+        for (int k = 0; k < 4; k++) {
             rhs >> block;
             uint32_t mask = block << (8 * k);
             data_[i] |= mask;
@@ -340,6 +340,7 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) {
 
 std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
     uint8_t mask_base = uint8_t(1);
+    std::string space;
 
     for (int i = data_.size() - 1; i >=0; i--) {
         for (int k = 3; k >= 0; k--) {
@@ -355,11 +356,12 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
                     }
 //                }
                 } else {
-                    rhs << " ";
+                    space += " ";
                 }
             }
             rhs << " ";
         }
+        rhs << space;
         rhs << "| " << data_.size() - i << std::endl;
     }
 
