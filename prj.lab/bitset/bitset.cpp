@@ -342,10 +342,10 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
     uint8_t mask_base = uint8_t(1);
     std::string space;
 
-    for (int i = data_.size() - 1; i >=0; i--) {
-        for (int k = 3; k >= 0; k--) {
+    for (int i = 0; i < data_.size(); i++) {
+        for (int k = 0; k < 4; k++) {
             uint32_t mask = (mask_base << k*8);
-            for (int d = 7; d >= 0; d--) {
+            for (int d = 0; d < 8; d++) {
                 uint32_t cur_elem = (data_[i] & (mask << d));
                 uint32_t cur_pos = (32 * i) + (k * 8) + d;
                 if (cur_pos <= size_) {
@@ -362,7 +362,7 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
             rhs << " ";
         }
         rhs << space;
-        rhs << "| " << data_.size() - i << std::endl;
+        rhs << "| " << i + 1 << std::endl;
     }
 
     rhs << "=" << std::endl;
@@ -370,8 +370,32 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
     return rhs;
 }
 
-//std::ostream& BitSet::ReadTxt(std::istream& rhs) {
-//
-//
-//    return rhs;
-//}
+std::istream& BitSet::ReadTxt(std::istream& rhs) {
+    int index = -1;
+
+    std::vector<std::string> buffer;
+
+    for (std::string line; std::getline(rhs, line);) {
+        buffer.push_back(line);
+    }
+
+    Resize((buffer.size() - 1) * 32);
+
+    for (std::string line: buffer) {
+        for (int i = 0; i < line.length(); i++) {
+            if (line[i] == '0') {
+                index++;
+                Set(index, false);
+            } else if (line[i] == '1') {
+                index++;
+                Set(index, true);
+            } else if (line[i] == '|') {
+                break;
+            }
+        }
+    }
+
+    Resize(index);
+
+    return rhs;
+}
