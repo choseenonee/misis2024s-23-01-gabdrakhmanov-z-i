@@ -20,6 +20,8 @@ add_executable(test_bitset_txt test_bitset_txt.cpp)
 
 add_executable(test_template test_stacklstt.cpp)
 
+add_executable(test_template_stackarr test_stackarrt.cpp)
+
 target_link_libraries(test_complex complex)
 target_link_libraries(test_rational rational)
 target_link_libraries(test_dynarr dynarr)
@@ -31,3 +33,4 @@ target_link_libraries(test_queue_lst_pr queuelstpr)
 target_link_libraries(test_bitset bitset)
 target_link_libraries(test_bitset_txt bitset)
 target_link_libraries(test_template stacklstt complex)
+target_link_libraries(test_template_stackarr stackarrt complex)

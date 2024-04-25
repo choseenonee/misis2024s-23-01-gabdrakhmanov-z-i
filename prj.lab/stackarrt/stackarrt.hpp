@@ -1,14 +1,48 @@
-#include "stackarr/stackarr.hpp"
+#ifndef STACKARRT1
+#define STACKARRT1
 
-StackArr::StackArr(const StackArr& rhs)
+#include <stdexcept>
+#include <cstddef>
+
+template<class T>
+class StackArrT {
+public:
+    StackArrT() = default;
+    StackArrT(StackArrT&& rhs) noexcept;
+    StackArrT(const StackArrT& rhs);
+
+    StackArrT& operator=(StackArrT&& rhs) noexcept;
+    StackArrT& operator=(const StackArrT& rhs);
+
+    void Push(const T& rhs);
+    void Pop() noexcept;
+    T& Top();
+
+    const T& Top() const;
+
+    void Clear() noexcept;
+
+    bool IsEmpty() const noexcept;
+
+    ~StackArrT();
+private:
+//    текущий индекс - индекс последнего внесённого элемента (НЕ следующего)
+    int current_index = -1;
+    std::ptrdiff_t capacity = 0;
+    T* data_ = nullptr;
+};
+
+template<class T>
+StackArrT<T>::StackArrT(const StackArrT& rhs)
         : current_index(rhs.current_index), capacity(rhs.capacity) {
-    data_ = new Complex[capacity];
+    data_ = new T[capacity];
     for (std::ptrdiff_t i = 0; i < capacity; i++) {
         data_[i] = rhs.data_[i];
     }
 }
 
-StackArr::StackArr(StackArr&& rhs) noexcept
+template<class T>
+StackArrT<T>::StackArrT(StackArrT&& rhs) noexcept
         : current_index(rhs.current_index), capacity(rhs.capacity), data_(rhs.data_)
 {
     rhs.current_index = -1;
@@ -16,7 +50,8 @@ StackArr::StackArr(StackArr&& rhs) noexcept
     rhs.data_ = nullptr;
 }
 
-StackArr& StackArr::operator=(StackArr&& rhs) noexcept {
+template<class T>
+StackArrT<T>& StackArrT<T>::operator=(StackArrT&& rhs) noexcept {
     if (this != &rhs) {
         std::swap(current_index, rhs.current_index);
         std::swap(capacity, rhs.capacity);
@@ -26,11 +61,12 @@ StackArr& StackArr::operator=(StackArr&& rhs) noexcept {
     return *this;
 }
 
-StackArr& StackArr::operator=(const StackArr& rhs) {
+template<class T>
+StackArrT<T>& StackArrT<T>::operator=(const StackArrT& rhs) {
     if (capacity < rhs.capacity) {
         capacity = rhs.capacity;
         delete[] data_;
-        data_ = new Complex[capacity];
+        data_ = new T[capacity];
         for (std::ptrdiff_t i = 0; i < capacity; i++) {
             data_[i] = rhs.data_[i];
         }
@@ -46,11 +82,12 @@ StackArr& StackArr::operator=(const StackArr& rhs) {
     return *this;
 }
 
-void StackArr::Push(const Complex& rhs) {
+template<class T>
+void StackArrT<T>::Push(const T& rhs) {
     if (current_index + 1 < capacity && data_ != nullptr) {
         data_[current_index + 1] = rhs;
     } else {
-        Complex* data = new Complex[(capacity + 1) * 2];
+        T* data = new T[(capacity + 1) * 2];
         if (data_ != nullptr) {
             for (std::ptrdiff_t i = 0; i < capacity; i++) {
                 data[i] = data_[i];
@@ -64,41 +101,49 @@ void StackArr::Push(const Complex& rhs) {
     current_index++;
 }
 
-void StackArr::Pop() noexcept {
+template<class T>
+void StackArrT<T>::Pop() noexcept {
     if (!IsEmpty()) {
-        data_[current_index] = Complex();
+        data_[current_index] = T();
         if (current_index > -1) {
             current_index--;
         }
     }
 }
 
-Complex& StackArr::Top() {
+template<class T>
+T& StackArrT<T>::Top() {
     if (IsEmpty()) {
-        throw std::logic_error("StackArr is empty");
+        throw std::logic_error("StackArrT is empty");
     }
 
     return data_[current_index];
 }
 
-const Complex& StackArr::Top() const {
+template<class T>
+const T& StackArrT<T>::Top() const {
     if (IsEmpty()) {
-        throw std::logic_error("StackArr is empty");
+        throw std::logic_error("StackArrT is empty");
     }
     return data_[current_index];
 }
 
-bool StackArr::IsEmpty() const noexcept {
+template<class T>
+bool StackArrT<T>::IsEmpty() const noexcept {
     return current_index == -1;
 }
 
-void StackArr::Clear() noexcept {
+template<class T>
+void StackArrT<T>::Clear() noexcept {
     delete[] data_;
     data_ = nullptr;
     capacity = 0;
     current_index = -1;
 }
 
-StackArr::~StackArr() {
+template<class T>
+StackArrT<T>::~StackArrT() {
     delete[] data_;
 }
+
+#endif //STACKARRT1
