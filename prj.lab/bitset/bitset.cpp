@@ -240,7 +240,7 @@ std::ostream& BitSet::writeBinaryData(std::ostream& rhs) const noexcept {
     uint8_t window_base = ~uint8_t(0);
 
     for (int i = 0; i < data_.size(); i++) {
-        for (int k = 0; k < 4; k++) {
+        for (int k = 3; k >= 0; k--) {
             uint32_t window = window_base << (8 * k);
             auto boba = uint8_t((data_[i] & window) >> (8 * k));
             rhs << boba;
@@ -261,13 +261,23 @@ uint8_t isEven(const std::vector<uint32_t>& rhs) {
         }
     }
 
-    return count;
+    uint8_t even_mark = uint8_t(0);
+    if (count%2 != 0) {
+        even_mark = ~even_mark;
+    }
+
+    return even_mark;
 }
 
 std::ostream& BitSet::WriteBinary(std::ostream& rhs) const noexcept {
     uint8_t even_mark = isEven(data_);
 
-    rhs << start_mark_ << size_;
+    rhs << start_mark_;
+
+    for (int i = 3; i >= 0; i--) {
+        uint8_t d = ((size_ >> (8*i)));
+        rhs << d;
+    }
 
     writeBinaryData(rhs);
 
@@ -282,7 +292,13 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) {
     uint8_t even_mark = 0;
     char end_mark = 0;
 
-    rhs >> start_mark >> size;
+    rhs >> start_mark;
+
+    for (int i = 3; i >= 0; i--) {
+        uint8_t size_fragment = 0;
+        rhs >> size_fragment;
+        size |= (size_fragment << i*8);
+    }
 
     if (start_mark != start_mark_) {
         throw std::logic_error("start mark isnt correct");
@@ -319,7 +335,7 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) {
 
     uint8_t block = 0;
     for (int i = 0; i < data_.size(); i++) {
-        for (int k = 0; k < 4; k++) {
+        for (int k = 3; k >= 0; k--) {
             rhs >> block;
             uint32_t mask = block << (8 * k);
             data_[i] |= mask;
@@ -327,9 +343,9 @@ std::istream& BitSet::ReadBinary(std::istream& rhs) {
     }
 
     rhs >> even_mark >> end_mark;
-
+    auto d = isEven(data_);
     if (isEven(data_) != even_mark) {
-        throw std::logic_error("even_mark doesnt match size eveness");
+        throw std::logic_error("even_mark doesnt match eveness");
     }
     if (end_mark != end_mark_) {
         throw std::logic_error("end mark isnt correct");
