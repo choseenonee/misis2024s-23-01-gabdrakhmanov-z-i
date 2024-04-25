@@ -8,7 +8,7 @@
 
 #define TESTED_TYPES int, double, std::string
 
-static const int little_data_len = 5;
+static const int little_data_len = 50;
 
 template<class T>
 std::vector<T> GetData() {
@@ -53,8 +53,6 @@ TEST_CASE_TEMPLATE("push, check, pop, check", T, TESTED_TYPES) {
 
     for (T &i: data) {
         stack.Push(i);
-//        auto c = stack.Top();
-//        auto d = c;
     }
 
     CHECK_FALSE(stack.IsEmpty());
@@ -65,4 +63,96 @@ TEST_CASE_TEMPLATE("push, check, pop, check", T, TESTED_TYPES) {
         CHECK(Compare(b, a));
         CHECK_NOTHROW(stack.Pop());
     }
+
+    CHECK_THROWS(stack.Top());
+    CHECK(stack.IsEmpty());
+}
+
+TEST_CASE_TEMPLATE("Clear", T, TESTED_TYPES) {
+    std::vector<T> data = GetData<T>();
+
+    StackArrT<T> stack;
+
+    CHECK(stack.IsEmpty());
+
+    for (T &i: data) {
+        stack.Push(i);
+    }
+
+    CHECK_FALSE(stack.IsEmpty());
+
+    stack.Clear();
+
+    CHECK(stack.IsEmpty());
+    CHECK_THROWS(stack.Top());
+}
+
+TEST_CASE_TEMPLATE("Copy", T, TESTED_TYPES) {
+    std::vector<T> data = GetData<T>();
+
+    StackArrT<T> lhs;
+    StackArrT<T> rhs;
+
+    for (T &i: data) {
+        lhs.Push(i);
+    }
+
+    for (int i = data.size() - 1; i >= 0; i--) {
+        rhs.Push(data[i]);
+    }
+
+    // равные по длиные
+    lhs = rhs;
+
+    for (T &i: data) {
+        CHECK_EQ(lhs.Top(), i);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    // правый длинее
+    lhs = rhs;
+    for (T &i: data) {
+        CHECK_EQ(lhs.Top(), i);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    rhs.Clear();
+
+    for (int i = data.size() - 1; i >= data.size() / 2; i--) {
+        rhs.Push(data[i]);
+    }
+
+    // левый длинее
+    lhs = rhs;
+
+    for (int i = data.size() / 2; i < data.size(); i++) {
+        if (lhs.IsEmpty()) {
+            break;
+        }
+        CHECK_EQ(lhs.Top(), data[i]);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    lhs.Clear();
+
+    // левый пустой
+    lhs = rhs;
+
+    for (int i = data.size() / 2; i < data.size(); i++) {
+        if (lhs.IsEmpty()) {
+            break;
+        }
+        CHECK_EQ(lhs.Top(), data[i]);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    rhs.Clear();
+
+    lhs = rhs;
+
+    CHECK(lhs.IsEmpty());
 }
