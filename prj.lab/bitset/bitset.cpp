@@ -348,7 +348,7 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
             for (int d = 0; d < 8; d++) {
                 uint32_t cur_elem = (data_[i] & (mask << d));
                 uint32_t cur_pos = (32 * i) + (k * 8) + d;
-                if (cur_pos <= size_) {
+                if (cur_pos < size_) {
                     if (cur_elem > 0) {
                         rhs << 1;
                     } else {
@@ -371,7 +371,6 @@ std::ostream& BitSet::WriteTxt(std::ostream& rhs) const noexcept {
 }
 
 std::istream& BitSet::ReadTxt(std::istream& rhs) {
-    int index = -1;
 
     std::vector<std::string> buffer;
 
@@ -381,6 +380,7 @@ std::istream& BitSet::ReadTxt(std::istream& rhs) {
 
     Resize((buffer.size() - 1) * 32);
 
+    int index = -1;
     for (std::string line: buffer) {
         for (int i = 0; i < line.length(); i++) {
             if (line[i] == '0') {
@@ -395,7 +395,7 @@ std::istream& BitSet::ReadTxt(std::istream& rhs) {
         }
     }
 
-    Resize(index);
+    Resize(index + 1);
 
     return rhs;
 }
