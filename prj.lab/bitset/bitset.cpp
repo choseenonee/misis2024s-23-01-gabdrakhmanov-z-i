@@ -68,11 +68,14 @@ void BitSet::Resize(const int32_t size) {
     size_ = size;
 }
 
+void BitSet::fillFromIdxToEnd(int from, bool v) {
+    for (from; from < size_; from++) {
+        Set(from, v);
+    }
+}
+
 void BitSet::Fill(const bool v) {
     int k = size_ / 32;
-    if (size_%32 != 0) {
-        k++;
-    }
     if (v) {
         for (int i = 0; i < k; i++) {
             data_[i] = ~uint32_t(0);
@@ -82,6 +85,14 @@ void BitSet::Fill(const bool v) {
             data_[i] = uint32_t(0);
         }
     }
+
+    if (size_%32 != 0) {
+        int from = k == 0 ? 0 : k * 32 -1;
+        fillFromIdxToEnd(from, v);
+    }
+
+
+
 }
 
 void BitSet::Set(const int32_t index, const bool v) {
@@ -218,8 +229,8 @@ bool BitSet::operator!=(const BitSet& rhs) const noexcept {
 BitSet BitSet::operator~() {
     BitSet res(*this);
 
-    for (int i = 0; i < res.data_.size(); i++) {
-        res.data_[i] = ~res.data_[i];
+    for (int i = 0; i < size_; i++) {
+        res.Set(i, !res.Get(i));
     }
     return res;
 }

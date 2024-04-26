@@ -69,6 +69,8 @@ public:
     std::istream& ReadBinary(std::istream& rhs);
 
 private:
+    void fillFromIdxToEnd(int from, bool v);
+
     char start_mark_ = 's';
     char end_mark_ = 'f';
 

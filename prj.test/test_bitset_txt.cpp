@@ -16,7 +16,7 @@ void WriteBS(BitSet& bs) {
 void ReadBS(BitSet& bs) {
     BitSet readed_bs;
     std::ifstream myfile;
-    myfile.open("/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.test/binary_bilikto");
+    myfile.open("/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.test/binary");
     readed_bs.ReadBinary(myfile);
     if (readed_bs != bs) {
         std::cout << ("binary read error");

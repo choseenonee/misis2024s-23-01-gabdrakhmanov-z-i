@@ -463,3 +463,364 @@ TEST_CASE("input out binary 3") {
 
     CHECK(bs == bs2);
 }
+
+TEST_CASE("bitset_copy_ctor") {
+    BitSet bs_orig;
+    const int size = 100;
+
+    bs_orig.Resize(size);
+
+    for (int32_t i = 0; i < size; ++i) {
+        bs_orig.Set(i, i % 2);
+    }
+
+    BitSet bs_copy(bs_orig);
+
+    CHECK_EQ(bs_orig.Size(), bs_copy.Size());
+    for (int32_t i = 0; i < size; ++i) {
+        CHECK_EQ(bs_orig.Get(i), bs_copy.Get(i));
+    }
+}
+
+TEST_CASE("bitset_move_ctor") {
+    BitSet bs_orig;
+    const int size = 100;
+
+    bs_orig.Resize(size);
+
+    for (int32_t i = 0; i < size; ++i) {
+        bs_orig.Set(i, i % 2);
+    }
+
+    BitSet bs_copy(std::move(bs_orig));
+
+    CHECK_EQ(size, bs_copy.Size());
+    for (int32_t i = 0; i < size; ++i) {
+        CHECK_EQ(i % 2, bs_copy.Get(i));
+    }
+}
+
+TEST_CASE("bitset_size_ctor") {
+    const int size = 100;
+    BitSet bs_def(size);
+
+    CHECK_EQ(size, bs_def.Size());
+
+    for (int32_t i = 0; i < size; ++i) {
+        CHECK_EQ(bs_def.Get(i), 0);
+    }
+}
+
+TEST_CASE("bitset_op=") {
+    BitSet bs_orig;
+    const int size_1 = 100;
+
+    bs_orig.Resize(size_1);
+
+    for (int32_t i = 0; i < size_1; ++i) {
+        bs_orig.Set(i, i % 2);
+    }
+
+    const int size_2 = 5;
+    BitSet bs_copy(size_2);
+
+    for (int32_t i = 0; i < size_2; ++i) {
+        bs_copy.Set(i, ~(i % 2));
+    }
+
+    bs_copy = bs_orig;
+
+    CHECK_EQ(bs_orig.Size(), bs_copy.Size());
+    for (int32_t i = 0; i < bs_orig.Size(); ++i) {
+        CHECK_EQ(bs_orig.Get(i), bs_copy.Get(i));
+    }
+}
+
+TEST_CASE("bitset_move_op=") {
+    BitSet bs_orig;
+    const int size_1 = 100;
+
+    bs_orig.Resize(size_1);
+
+    for (int32_t i = 0; i < size_1; ++i) {
+        bs_orig.Set(i, i % 2);
+    }
+
+    const int size_2 = 5;
+    BitSet bs_copy(size_2);
+
+    for (int32_t i = 0; i < size_2; ++i) {
+        bs_copy.Set(i, ~(i % 2));
+    }
+
+    bs_copy = std::move(bs_orig);
+
+    CHECK_EQ(size_1, bs_copy.Size());
+    for (int32_t i = 0; i < size_1; ++i) {
+        CHECK_EQ(i % 2, bs_copy.Get(i));
+    }
+}
+
+TEST_CASE("bitset_Size") {
+    BitSet bs_def;
+    const int size = 10;
+
+    bs_def.Resize(size);
+
+    CHECK_EQ(bs_def.Size(), size);
+}
+
+TEST_CASE("bitset_Resize") {
+    const int size_1 = 45;
+    const int size_2 = 70;
+    const int size_3 = 3;
+    const int size_error = -5;
+
+    BitSet bs_def(size_1);
+    for (int i = 0; i < size_1; ++i) {
+        bs_def.Set(i, i % 2);
+    }
+
+    bs_def.Resize(size_2);
+    CHECK_EQ(bs_def.Size(), size_2);
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_def.Get(i), i % 2);
+    }
+
+    bs_def.Resize(size_3);
+    CHECK_EQ(bs_def.Size(), size_3);
+    for (int i = 0; i < size_3; ++i) {
+        CHECK_EQ(bs_def.Get(i), i % 2);
+    }
+
+    bs_def.Resize(size_1);
+    for (int i = size_3; i < size_1; ++i) {
+        CHECK_EQ(bs_def.Get(i), 0);
+    }
+
+    CHECK_THROWS(bs_def.Resize(size_error));
+}
+
+TEST_CASE("bitset_Set") {
+    const int size = 100;
+    BitSet bs_def(size);
+
+    for (int i = 31; i < size; ++i) {
+        bs_def.Set(i, i % 2);
+        CHECK_EQ(bs_def.Get(i), i % 2);
+    }
+
+    CHECK_THROWS(bs_def.Set(-1, 0));
+    CHECK_THROWS(bs_def.Set(size, 0));
+}
+
+TEST_CASE("bitset_Get") {
+    const int size = 100;
+    BitSet bs_def(size);
+
+    for (int i = 31; i < size; ++i) {
+        bs_def.Set(i, i % 2);
+        CHECK_EQ(bs_def.Get(i), i % 2);
+    }
+
+    CHECK_THROWS(bs_def.Get(-1));
+    CHECK_THROWS(bs_def.Get(size));
+}
+
+TEST_CASE("bitset_Fill") {
+    const int size_1 = 100;
+    BitSet bs_def(size_1);
+
+    for (int i = 0; i < size_1; ++i) {
+        bs_def.Set(i, i % 2);
+    }
+
+    bs_def.Fill(true);
+
+    CHECK_EQ(size_1, bs_def.Size());
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_def.Get(i), 1);
+    }
+
+    bs_def.Fill(false);
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_def.Get(i), 0);
+    }
+
+    bs_def.Fill(true);
+
+    const int size_2 = 200;
+    bs_def.Resize(size_2);
+
+    for (int i = size_1; i < size_2; ++i) {
+        CHECK_EQ(bs_def.Get(i), 0);
+    }
+}
+
+TEST_CASE("bitset_op~") {
+    const int size_1 = 100;
+    BitSet bs_def(size_1);
+    BitSet bs;
+
+    bs = ~bs_def;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_def.Get(i), 0);
+        CHECK_EQ(bs.Get(i), 1);
+    }
+
+    const int size_2 = 200;
+    bs.Resize(size_2);
+
+    for (int i = size_1; i < size_2; ++i) {
+        CHECK_EQ(bs.Get(i), 0);
+    }
+}
+
+TEST_CASE("bitset_op&") {
+    const int size_1 = 100;
+    BitSet bs_first(size_1);
+    BitSet bs_second(size_1);
+
+    bs_second.Fill(1);
+
+    bs_first = bs_first & bs_second;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+
+    bs_first.Fill(1);
+
+    bs_first = bs_first & bs_second;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 1);
+    }
+
+    BitSet bs_error(size_1 + 1);
+    CHECK_THROWS(bs_first & bs_error);
+
+    const int size_2 = 200;
+    bs_first.Resize(size_2);
+
+    for (int i = size_1; i < size_2; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+}
+
+TEST_CASE("bitset_op|") {
+    const int size_1 = 100;
+    BitSet bs_first(size_1);
+    BitSet bs_second(size_1);
+
+    bs_first = bs_first | bs_second;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+
+    bs_second.Fill(1);
+
+    bs_first = bs_first | bs_second;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 1);
+    }
+
+    BitSet bs_error(size_1 + 1);
+    CHECK_THROWS(bs_first | bs_error);
+
+    const int size_2 = 200;
+    bs_first.Resize(size_2);
+
+    for (int i = size_1; i < size_2; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+}
+
+TEST_CASE("bitset_op^") {
+    const int size_1 = 100;
+    BitSet bs_first(size_1);
+    BitSet bs_second(size_1);
+
+    bs_first = bs_first ^ bs_second;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+
+    bs_second.Fill(1);
+
+    bs_first = bs_first ^ bs_second;
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 1);
+    }
+
+    bs_first = bs_first ^ bs_second;
+
+    for (int i = 0; i < size_1; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+
+    BitSet bs_error(size_1 + 1);
+    CHECK_THROWS(bs_first ^ bs_error);
+
+    bs_first ^= bs_second;
+
+    const int size_2 = 200;
+    bs_first.Resize(size_2);
+
+    for (int i = size_1; i < size_2; ++i) {
+        CHECK_EQ(bs_first.Get(i), 0);
+    }
+}
+
+TEST_CASE("bitset_op[]") {
+    const int size = 100;
+    BitSet bs_first(size);
+    BitSet bs_second(size);
+    BitSet bs_third(size);
+    const int idx = 70;
+
+    bs_first[idx] = true;
+    CHECK_EQ(bs_first.Get(idx), true);
+
+    CHECK_THROWS(bs_first[-1]);
+    CHECK_THROWS(bs_first[size]);
+}
+
+TEST_CASE("bitset_op_bool()") {
+    const int size = 100;
+    const int idx = 70;
+    BitSet bs_def(size);
+    bool flag = false;
+
+    if (bs_def[idx]) {
+        flag = true;
+    }
+    else {
+        flag = false;
+    }
+
+    CHECK_EQ(flag, false);
+
+    CHECK(bs_def[idx] == false);
+    CHECK(bs_def[idx] != true);
+}
+
+TEST_CASE("bitset_bool_ops") {
+    const int size = 100;
+    BitSet bs_first(size);
+    BitSet bs_second(size);
+    BitSet bs_third(size / 2);
+
+    CHECK(bs_first == bs_second);
+    CHECK(bs_first != bs_third);
+
+    const int idx = 40;
+    bs_first[idx] = true;
+
+    CHECK(bs_first != bs_second);
+}
