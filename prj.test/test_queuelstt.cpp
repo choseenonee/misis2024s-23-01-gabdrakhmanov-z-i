@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include <queuearrt/queuearrt.hpp>
+#include <queuelstt/queuelstt.hpp>
 
 #include <string>
 #include <vector>
@@ -48,7 +48,7 @@ bool Compare(double& lhs, double& rhs) {
 TEST_CASE_TEMPLATE("push, check, pop, check, queue", T, TESTED_TYPES) {
     std::vector<T> data = GetData<T>();
 
-    QueueArrT<T> queue;
+    QueueLstT<T> queue;
 
     CHECK(queue.IsEmpty());
 
@@ -72,7 +72,7 @@ TEST_CASE_TEMPLATE("push, check, pop, check, queue", T, TESTED_TYPES) {
 TEST_CASE_TEMPLATE("Clear", T, TESTED_TYPES) {
     std::vector<T> data = GetData<T>();
 
-    QueueArrT<T> queue;
+    QueueLstT<T> queue;
 
     CHECK(queue.IsEmpty());
 
@@ -92,8 +92,8 @@ TEST_CASE_TEMPLATE("Clear", T, TESTED_TYPES) {
 TEST_CASE_TEMPLATE("Copy", T, TESTED_TYPES) {
     std::vector<T> data = GetData<T>();
 
-    QueueArrT<T> lhs;
-    QueueArrT<T> rhs;
+    QueueLstT<T> lhs;
+    QueueLstT<T> rhs;
 
     for (T &i: data) {
         lhs.Push(i);

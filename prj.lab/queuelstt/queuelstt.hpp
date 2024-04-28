@@ -76,7 +76,7 @@ void QueueLstT<T>::Push(const T& rhs) {
 template<class T>
 T& QueueLstT<T>::Top() {
     if (!IsEmpty()) {
-        return last_->value;
+        return first_->value;
     } else {
         throw std::logic_error("no elements on stack");
     }
@@ -85,7 +85,7 @@ T& QueueLstT<T>::Top() {
 template<class T>
 const T& QueueLstT<T>::Top() const {
     if (!IsEmpty()) {
-        return last_->value;
+        return first_->value;
     } else {
         throw std::logic_error("no elements on stack");
     }
@@ -93,6 +93,9 @@ const T& QueueLstT<T>::Top() const {
 
 template<class T>
 void QueueLstT<T>::Pop() noexcept {
+    if (IsEmpty()) {
+        return;
+    }
     if (first_ == last_) {
         delete first_;
         first_ = nullptr;
