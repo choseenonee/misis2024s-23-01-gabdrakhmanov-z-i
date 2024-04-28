@@ -109,6 +109,9 @@ void QueueArr::Push(const Complex &rhs) {
 }
 
 void QueueArr::Pop() noexcept {
+    if (IsEmpty()) {
+        return;
+    }
     if (head_ == tail_) {
         head_ = -1;
         tail_ = -1;

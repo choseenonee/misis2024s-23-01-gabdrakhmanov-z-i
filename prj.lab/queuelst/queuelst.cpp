@@ -33,7 +33,7 @@ void QueueLst::Push(const Complex& rhs) {
 
 Complex& QueueLst::Top() {
     if (!IsEmpty()) {
-        return last_->value;
+        return first_->value;
     } else {
         throw std::logic_error("no elements on stack");
     }
@@ -42,7 +42,7 @@ Complex& QueueLst::Top() {
 
 const Complex& QueueLst::Top() const {
     if (!IsEmpty()) {
-        return last_->value;
+        return first_->value;
     } else {
         throw std::logic_error("no elements on stack");
     }
@@ -50,6 +50,9 @@ const Complex& QueueLst::Top() const {
 
 
 void QueueLst::Pop() noexcept {
+    if (IsEmpty()) {
+        return;
+    }
     if (first_ == last_) {
         delete first_;
         first_ = nullptr;
