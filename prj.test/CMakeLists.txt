@@ -22,6 +22,9 @@ add_executable(test_template test_stacklstt.cpp)
 
 add_executable(test_template_stackarr test_stackarrt.cpp)
 
+add_executable(test_template_queuearr test_queuearrt.cpp)
+target_link_libraries(test_template_queuearr queuearrt)
+
 target_link_libraries(test_complex complex)
 target_link_libraries(test_rational rational)
 target_link_libraries(test_dynarr dynarr)

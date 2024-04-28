@@ -44,7 +44,7 @@ bool Compare(double& lhs, double& rhs) {
     return abs(lhs - rhs) <= 2 * std::numeric_limits<double>::epsilon();
 }
 
-TEST_CASE_TEMPLATE("push, check, pop, check", T, TESTED_TYPES) {
+TEST_CASE_TEMPLATE("push, check, pop, check, stack", T, TESTED_TYPES) {
     std::vector<T> data = GetData<T>();
 
     StackArrT<T> stack;

@@ -6,8 +6,8 @@
 #include <vector>
 #include <limits>
 
+#define TESTED_TYPES int, double
 //#define TESTED_TYPES int, double, std::string
-#define TESTED_TYPES std::string
 
 static const int little_data_len = 50;
 
@@ -45,7 +45,7 @@ bool Compare(double& lhs, double& rhs) {
     return abs(lhs - rhs) <= 2 * std::numeric_limits<double>::epsilon();
 }
 
-TEST_CASE_TEMPLATE("push, check, pop, check", T, TESTED_TYPES) {
+TEST_CASE_TEMPLATE("push, check, pop, check, queue", T, TESTED_TYPES) {
     std::vector<T> data = GetData<T>();
 
     QueueArrT<T> queue;
@@ -88,72 +88,73 @@ TEST_CASE_TEMPLATE("Clear", T, TESTED_TYPES) {
     CHECK_THROWS(queue.Top());
 }
 
-//TEST_CASE_TEMPLATE("Copy", T, TESTED_TYPES) {
-//    std::vector<T> data = GetData<T>();
-//
-//    QueueArrT<T> lhs;
-//    QueueArrT<T> rhs;
-//
-//    for (T &i: data) {
-//        lhs.Push(i);
-//    }
-//
-//    for (int i = data.size() - 1; i >= 0; i--) {
-//        rhs.Push(data[i]);
-//    }
-//
-//    // равные по длиные
-//    lhs = rhs;
-//
-//    for (T &i: data) {
-//        CHECK_EQ(lhs.Top(), i);
-//        CHECK_NOTHROW(lhs.Pop());
-//    }
-//    CHECK(lhs.IsEmpty());
-//
-//    // правый длинее
-//    lhs = rhs;
-//    for (T &i: data) {
-//        CHECK_EQ(lhs.Top(), i);
-//        CHECK_NOTHROW(lhs.Pop());
-//    }
-//    CHECK(lhs.IsEmpty());
-//
-//    rhs.Clear();
-//
-//    for (int i = data.size() - 1; i >= data.size() / 2; i--) {
-//        rhs.Push(data[i]);
-//    }
-//
-//    // левый длинее
-//    lhs = rhs;
-//
-//    for (int i = data.size() / 2; i < data.size(); i++) {
-//        if (lhs.IsEmpty()) {
-//            break;
-//        }
-//        CHECK_EQ(lhs.Top(), data[i]);
-//        CHECK_NOTHROW(lhs.Pop());
-//    }
-//    CHECK(lhs.IsEmpty());
-//
-//    lhs.Clear();
-//
-//    // левый пустой
-//    lhs = rhs;
-//
-//    for (int i = data.size() / 2; i < data.size(); i++) {
-//        if (lhs.IsEmpty()) {
-//            break;
-//        }
-//        CHECK_EQ(lhs.Top(), data[i]);
-//        CHECK_NOTHROW(lhs.Pop());
-//    }
-//    CHECK(lhs.IsEmpty());
-//
-//    rhs.Clear();
-//
-//    lhs = rhs;
-//
-//    CHECK(lhs.IsEmpty());
-//}
+
+TEST_CASE_TEMPLATE("Copy", T, TESTED_TYPES) {
+    std::vector<T> data = GetData<T>();
+
+    QueueArrT<T> lhs;
+    QueueArrT<T> rhs;
+
+    for (T &i: data) {
+        lhs.Push(i);
+    }
+
+    for (int i = data.size() - 1; i >= 0; i--) {
+        rhs.Push(data[i]);
+    }
+
+    // равные по длиные
+    lhs = rhs;
+
+    for (int i = data.size() - 1; i >= 0; i--) {
+        CHECK_EQ(lhs.Top(), data[i]);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    // правый длинее
+    lhs = rhs;
+    for (int i = data.size() - 1; i >= 0; i--) {
+        CHECK_EQ(lhs.Top(), data[i]);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    rhs.Clear();
+
+    for (int i = data.size(); i < data.size() / 2; i--) {
+        rhs.Push(data[i]);
+    }
+
+    // левый длинее
+    lhs = rhs;
+
+    for (int i = data.size(); i < data.size() / 2; i--) {
+        if (lhs.IsEmpty()) {
+            break;
+        }
+        CHECK_EQ(lhs.Top(), data[i]);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    lhs.Clear();
+
+    // левый пустой
+    lhs = rhs;
+
+    for (int i = data.size() / 2; i < data.size(); i++) {
+        if (lhs.IsEmpty()) {
+            break;
+        }
+        CHECK_EQ(lhs.Top(), data[i]);
+        CHECK_NOTHROW(lhs.Pop());
+    }
+    CHECK(lhs.IsEmpty());
+
+    rhs.Clear();
+
+    lhs = rhs;
+
+    CHECK(lhs.IsEmpty());
+}
