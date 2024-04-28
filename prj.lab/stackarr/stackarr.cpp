@@ -37,7 +37,7 @@ StackArr& StackArr::operator=(const StackArr& rhs) {
     } else {
 //        ошибка, теряю контроль над capacity - rhs.capacity элементами
 //        capacity = rhs.capacity;
-        for (std::ptrdiff_t i = 0; i < capacity; i++) {
+        for (std::ptrdiff_t i = 0; i < rhs.capacity; i++) {
             data_[i] = rhs.data_[i];
         }
     }
