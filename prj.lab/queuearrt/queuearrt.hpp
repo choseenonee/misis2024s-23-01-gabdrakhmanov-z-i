@@ -155,6 +155,9 @@ void QueueArrT<T>::Push(const T &rhs) {
 
 template<class T>
 void QueueArrT<T>::Pop() noexcept {
+    if (IsEmpty()) {
+        return;
+    }
     if (head_ == tail_) {
         head_ = -1;
         tail_ = -1;
