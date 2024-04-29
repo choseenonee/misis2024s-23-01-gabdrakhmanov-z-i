@@ -6,10 +6,9 @@
 #include <vector>
 #include <limits>
 
-#define TESTED_TYPES int, double
-//#define TESTED_TYPES int, double, std::string
+#define TESTED_TYPES int, double, std::string
 
-static const int little_data_len = 50;
+static const int little_data_len = 5000;
 
 template<class T>
 std::vector<T> GetData() {
