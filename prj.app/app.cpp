@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include <queuelstt/queuelstt.hpp>
 #include <queuearrt/queuearrt.hpp>
@@ -9,7 +10,7 @@
 
 #define TESTED_TYPES int, double, std::string
 
-static const int data_len = 10000000;
+static const int max_data_size = 1050000;
 
 template<class T>
 std::string GetTypeName(T& rhs) {
@@ -41,7 +42,7 @@ std::string GetTypeName(QueueArrT<std::string>& rhs) {
 }
 
 template<class T>
-std::vector<T> GetData() {
+std::vector<T> GetData(int data_len) {
     std::vector<T> data;
 
     T single_data = T{0};
@@ -53,7 +54,7 @@ std::vector<T> GetData() {
     return data;
 }
 template<>
-std::vector<std::string> GetData() {
+std::vector<std::string> GetData(int data_len) {
     std::vector<std::string> data{};
     std::string single_data = "a";
 
@@ -66,40 +67,49 @@ std::vector<std::string> GetData() {
 }
 
 template<class Atd, class T>
-void calculatePushAndClearTime(Atd& queueLst, std::vector<T>& data) {
-    auto start = std::chrono::steady_clock::now();
+void calculatePushAndClearTime(Atd& atd, std::vector<T>& data, int max_size, std::ofstream& file) {
+    file << GetTypeName(atd) << std::endl;
+    for (int data_size = 1; data_size <= max_size; data_size*=2) {
+        auto start = std::chrono::steady_clock::now();
 
-    for (auto& i : data) {
-        queueLst.Push(i);
+        for (int i = 0; i < data_size; i++) {
+            atd.Push(data[i]);
+        }
+
+        auto end = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+        file << "Pushing: " << data_size << " elements, time taken: " << duration.count() << " microseconds" << std::endl;
+
+        start = std::chrono::steady_clock::now();
+        atd.Clear();
+        end = std::chrono::steady_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+        file << "Clearing: " << data_size << " elements, time taken: " << duration.count() << " microseconds" << std::endl;
     }
-
-    auto end = std::chrono::steady_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::cout << GetTypeName(queueLst) << " pushing: " << data_len << " elements, time taken: "
-    << duration.count() << " microseconds" << std::endl;
-
-    start = std::chrono::steady_clock::now();
-    queueLst.Clear();
-    end = std::chrono::steady_clock::now();
-    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::cout << GetTypeName(queueLst) << " clearing: " << data_len << " elements, time taken: "
-    << duration.count() << " microseconds" << std::endl;
 }
 
 int main() {
-    std::vector<double> data2 = GetData<double>();
+//    std::vector<double> data2 = GetData<double>();
+//
+//    QueueLstT<double> rhs2 = QueueLstT<double>();
+//    calculatePushAndClearTime(rhs2, data2);
+//
+//    QueueArrT<double> lhs2 = QueueArrT<double>();
+//    calculatePushAndClearTime(lhs2, data2);
+//
 
-    QueueLstT<double> rhs2 = QueueLstT<double>();
-    calculatePushAndClearTime(rhs2, data2);
+    std::ofstream timerOutputFile;
+    timerOutputFile.open("/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.app/timer_output.txt");
 
-    QueueArrT<double> lhs2 = QueueArrT<double>();
-    calculatePushAndClearTime(lhs2, data2);
-
-    std::vector<int> data = GetData<int>();
+    std::vector<int> data = GetData<int>(max_data_size);
 
     QueueLstT<int> rhs = QueueLstT<int>();
-    calculatePushAndClearTime(rhs, data);
+    calculatePushAndClearTime(rhs, data, max_data_size, timerOutputFile);
 
     QueueArrT<int> lhs = QueueArrT<int>();
-    calculatePushAndClearTime(lhs, data);
+    calculatePushAndClearTime(lhs, data, max_data_size, timerOutputFile);
+
+    timerOutputFile.close();
 }
