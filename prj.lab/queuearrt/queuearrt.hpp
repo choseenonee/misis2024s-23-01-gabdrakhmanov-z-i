@@ -102,7 +102,7 @@ void QueueArrT<T>::Push(const T &rhs) {
                 tail_++;
                 new_data[tail_] = rhs;
 
-                delete data_;
+                delete[] data_;
                 data_ = new_data;
 
                 capacity = capacity*2+2;
@@ -125,7 +125,7 @@ void QueueArrT<T>::Push(const T &rhs) {
             new_data[tail_] = rhs;
             capacity = capacity*2+2;
 
-            delete data_;
+            delete[] data_;
             data_ = new_data;
         }
     }
@@ -140,7 +140,7 @@ void QueueArrT<T>::Push(const T &rhs) {
                 for (std::ptrdiff_t i = 0; i < capacity; i++) {
                     new_data[i] = data_[i];
                 }
-                delete data_;
+                delete[] data_;
                 data_ = new_data;
                 capacity = capacity*2+2;
             } else {
@@ -201,7 +201,7 @@ QueueArrT<T>& QueueArrT<T>::operator=(const QueueArrT& rhs) noexcept {
         head_ = rhs.head_;
         tail_ = rhs.tail_;
         if (capacity < rhs.capacity) {
-            delete data_;
+            delete[] data_;
             data_ = new T[rhs.capacity];
             capacity = rhs.capacity;
         }
@@ -219,7 +219,7 @@ void QueueArrT<T>::Clear() noexcept {
     head_ = -1;
     tail_ = -1;
     capacity = 0;
-    delete data_;
+    delete[] data_;
     data_ = nullptr;
 }
 

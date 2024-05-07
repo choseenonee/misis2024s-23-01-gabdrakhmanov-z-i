@@ -8,7 +8,7 @@
 
 #define TESTED_TYPES int, double, std::string
 
-static const int little_data_len = 5000;
+static const int little_data_len = 50000;
 
 template<class T>
 std::vector<T> GetData() {
@@ -102,7 +102,7 @@ TEST_CASE_TEMPLATE("Copy", T, TESTED_TYPES) {
         rhs.Push(data[i]);
     }
 
-    // равные по длиные
+    // равные по длине
     lhs = rhs;
 
     for (int i = data.size() - 1; i >= 0; i--) {

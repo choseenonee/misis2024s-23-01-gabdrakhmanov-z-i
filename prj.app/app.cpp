@@ -8,8 +8,6 @@
 #include <stackarrt/stackarrt.hpp>
 #include <stacklstt/stacklstt.hpp>
 
-#define TESTED_TYPES int, double, std::string
-
 static const int max_data_size = 1050000;
 
 template<class T>
@@ -91,15 +89,6 @@ void calculatePushAndClearTime(Atd& atd, std::vector<T>& data, int max_size, std
 }
 
 int main() {
-//    std::vector<double> data2 = GetData<double>();
-//
-//    QueueLstT<double> rhs2 = QueueLstT<double>();
-//    calculatePushAndClearTime(rhs2, data2);
-//
-//    QueueArrT<double> lhs2 = QueueArrT<double>();
-//    calculatePushAndClearTime(lhs2, data2);
-//
-
     std::ofstream timerOutputFile;
     timerOutputFile.open("/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.app/timer_output.txt");
 
