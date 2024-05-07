@@ -65,26 +65,39 @@ std::vector<std::string> GetData(int data_len) {
 }
 
 template<class Atd, class T>
-void calculatePushAndClearTime(Atd& atd, std::vector<T>& data, int max_size, std::ofstream& file) {
+std::vector<long long> calculatePushAndClearTime(Atd& atd, std::vector<T>& data) {
+    auto start = std::chrono::steady_clock::now();
+
+    for (int i = 0; i < data.size(); i++) {
+        atd.Push(data[i]);
+    }
+
+    auto end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    long long pushTime = duration.count();
+
+    start = std::chrono::steady_clock::now();
+    atd.Clear();
+    end = std::chrono::steady_clock::now();
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    long long clearTime = duration.count();
+
+    std::vector<long long> timings = {pushTime, clearTime};
+
+    return timings;
+}
+
+template<class Atd, class T>
+void writeToFilePushAndClearTime(Atd& atd, std::vector<T>& data, int max_size, std::ofstream& file) {
     file << GetTypeName(atd) << std::endl;
     for (int data_size = 1; data_size <= max_size; data_size*=2) {
-        auto start = std::chrono::steady_clock::now();
 
-        for (int i = 0; i < data_size; i++) {
-            atd.Push(data[i]);
-        }
+        std::vector<long long> timings = calculatePushAndClearTime<Atd, T>(atd, data);
+        file << "Pushing: " << data_size << " elements, time taken: " << timings[0] << " microseconds" << std::endl;
 
-        auto end = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-        file << "Pushing: " << data_size << " elements, time taken: " << duration.count() << " microseconds" << std::endl;
-
-        start = std::chrono::steady_clock::now();
-        atd.Clear();
-        end = std::chrono::steady_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-        file << "Clearing: " << data_size << " elements, time taken: " << duration.count() << " microseconds" << std::endl;
+        file << "Clearing: " << data_size << " elements, time taken: " << timings[1] << " microseconds" << std::endl;
     }
 }
 
@@ -95,10 +108,10 @@ int main() {
     std::vector<int> data = GetData<int>(max_data_size);
 
     QueueLstT<int> rhs = QueueLstT<int>();
-    calculatePushAndClearTime(rhs, data, max_data_size, timerOutputFile);
+    writeToFilePushAndClearTime(rhs, data, max_data_size, timerOutputFile);
 
     QueueArrT<int> lhs = QueueArrT<int>();
-    calculatePushAndClearTime(lhs, data, max_data_size, timerOutputFile);
+    writeToFilePushAndClearTime(lhs, data, max_data_size, timerOutputFile);
 
     timerOutputFile.close();
 }
