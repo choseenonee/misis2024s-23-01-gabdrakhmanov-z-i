@@ -159,3 +159,25 @@ TEST_CASE_TEMPLATE("Copy", T, TESTED_TYPES) {
 
     CHECK(lhs.IsEmpty());
 }
+
+TEST_CASE_TEMPLATE("copy ctor", T, TESTED_TYPES) {
+    std::vector<T> data = GetData<T>();
+
+    QueueLstT<T> lhs;
+
+    for (T &i: data) {
+        lhs.Push(i);
+    }
+
+    QueueLstT<T> rhs(lhs);
+
+    for (T &i: data) {
+        CHECK_EQ(rhs.Top(), i);
+        rhs.Pop();
+    }
+
+    for (T &i: data) {
+        CHECK_EQ(lhs.Top(), i);
+        lhs.Pop();
+    }
+}
