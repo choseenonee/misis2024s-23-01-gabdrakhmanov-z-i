@@ -147,10 +147,6 @@ TEST_CASE("StackList ctor") {
     stack.Pop();
 }
 
-static const Complex a(1, 2);
-static const Complex b(1, 3);
-static const Complex c(2, 3);
-
 TEST_CASE("time test") {
     long long diff = 0;
 
