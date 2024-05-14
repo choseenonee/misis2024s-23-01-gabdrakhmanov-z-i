@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 
+#define DEBUG true
 
 class Command {
 public:
@@ -69,7 +70,9 @@ int go(std::vector<std::unique_ptr<Command>>& commands, int buf_size) {
     std::vector<int> buffer(buf_size);
     for (auto& i : commands) {
         i->Do(cursor, buffer);
-        print(buffer, cursor);
+        if (DEBUG) {
+            print(buffer, cursor);
+        }
     }
 
     return buffer[cursor];
@@ -93,7 +96,7 @@ int main() {
         } else if (cmd == "SUB") {
             commands.push_back(std::make_unique<Sub>(Sub(val)));
         } else if (cmd == "GO") {
-            go(commands, val);
+            std::cout << go(commands, val) << std::endl;
         } else if (cmd == "REV") {
             for (int i = 0; i < val; i++) {
                 commands.pop_back();
