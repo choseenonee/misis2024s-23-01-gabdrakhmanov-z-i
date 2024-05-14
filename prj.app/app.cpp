@@ -7,6 +7,8 @@
 #include <queuearrt/queuearrt.hpp>
 #include <stackarrt/stackarrt.hpp>
 #include <stacklstt/stacklstt.hpp>
+#include <imgui.h>
+#include <implot.h>
 
 static const int max_data_size = 1050000;
 
@@ -101,7 +103,7 @@ void writeToFilePushAndClearTime(Atd& atd, std::vector<T>& data, int max_size, s
     }
 }
 
-int main() {
+void openFileAndWriteToIt() {
     std::ofstream timerOutputFile;
     timerOutputFile.open("/Users/thechosenone/CLionProjects/https:/github.com/choseenonee/123/misis2024s-23-01-gabdrakhmanov-z-i/prj.app/timer_output.txt");
 
@@ -114,4 +116,34 @@ int main() {
     writeToFilePushAndClearTime(lhs, data, max_data_size, timerOutputFile);
 
     timerOutputFile.close();
+}
+
+int main() {
+    auto data = GetData<int>(100);
+
+    int count[data.size()];
+    for (int i = 0; i < data.size(); i++) {
+        count[i] = i;
+    }
+
+    QueueArrT<int> qu = QueueArrT<int>();
+    auto timings_vector = calculatePushAndClearTime<QueueArrT<int>, int>(qu, data);
+
+    int timings[timings_vector.size()];
+    for (int i = 0; i < timings_vector.size(); i++) {
+        timings[i] = timings_vector[i];
+    }
+
+
+    int bar_data[1] = {10};
+    float x_data[2] = {1, 2};
+    float y_data[2] = {3, 4};
+
+    ImGui::Begin("My Window");
+    if (ImPlot::BeginPlot("My Plot")) {
+        ImPlot::PlotBars("My Bar Plot", bar_data, 11);
+        ImPlot::PlotLine("My Line Plot", x_data, y_data, 1000);
+        ImPlot::EndPlot();
+    }
+    ImGui::End();
 }

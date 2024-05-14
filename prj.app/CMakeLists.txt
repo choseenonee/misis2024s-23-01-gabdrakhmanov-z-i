@@ -1,2 +1,6 @@
 add_executable(app app.cpp)
-target_link_libraries(app queuearrt queuelstt stackarrt stacklstt)
+
+find_package(implot CONFIG REQUIRED)
+target_link_libraries(app PRIVATE implot::implot queuearrt queuelstt stackarrt stacklstt)
+
+add_subdirectory(robobuba)
