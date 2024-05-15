@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 
 #define DEBUG true
 
@@ -65,7 +66,7 @@ void print(std::vector<int>& val, int cursor) {
     std::cout << std::endl;
 };
 
-int go(std::vector<std::unique_ptr<Command>>& commands, int buf_size) {
+void go(std::vector<std::unique_ptr<Command>>& commands, int buf_size, std::ofstream& outputFile) {
     int cursor = 0;
     std::vector<int> buffer(buf_size);
     for (auto& i : commands) {
@@ -75,17 +76,45 @@ int go(std::vector<std::unique_ptr<Command>>& commands, int buf_size) {
         }
     }
 
-    return buffer[cursor];
+    outputFile << buffer[cursor] << std::endl;
 };
 
-int main() {
+int main(int argc, char* argv[]) {
+    std::string inputFilePath;
+    std::string outputFilePath;
+
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "-i" && i + 1 < argc) {
+            inputFilePath = argv[++i];
+        } else if (arg == "-o" && i + 1 < argc) {
+            outputFilePath = argv[++i];
+        }
+    }
+
+    if (inputFilePath.empty()) {
+        std::cout << "no input file provided: " << inputFilePath;
+        return 1;
+    }
+    if (outputFilePath.empty()) {
+        std::cout << "no output file provided: " << outputFilePath;
+        return 1;
+    }
+
+    std::ifstream inputFile;
+    inputFile.open(inputFilePath);
+
+    std::ofstream outputFile;
+    outputFile.open(outputFilePath);
+
+
     std::vector<std::unique_ptr<Command>> commands = {};
 
     while (true) {
         std::string cmd;
         int val;
 
-        std::cin >> cmd >> val;
+        inputFile >> cmd >> val;
 
         if (cmd == "LEFT") {
             commands.push_back(std::make_unique<Left>(Left(val)));
@@ -96,7 +125,7 @@ int main() {
         } else if (cmd == "SUB") {
             commands.push_back(std::make_unique<Sub>(Sub(val)));
         } else if (cmd == "GO") {
-            std::cout << go(commands, val) << std::endl;
+            go(commands, val, outputFile);
         } else if (cmd == "REV") {
             for (int i = 0; i < val; i++) {
                 commands.pop_back();

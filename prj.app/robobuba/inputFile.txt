@@ -1,0 +1,6 @@
+RIGHT 1
+ADD 1
+GO 2
+REV 1
+ADD 1
+GO 2
