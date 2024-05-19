@@ -9,9 +9,18 @@ Call Stack (most recent call first):
   prj.cw/CMakeLists.txt:1 (FIND_PACKAGE)
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
-CMake Warning:
-  Manually-specified variables were not used by the project:
+CMake Error at D:/programs/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package):
+  Could not find a package configuration file provided by "implot" with any
+  of the following names:
 
-    BUILD_WITH_SAMPLES
+    implotConfig.cmake
+    implot-config.cmake
+
+  Add the installation prefix of "implot" to CMAKE_PREFIX_PATH or set
+  "implot_DIR" to a directory containing one of the above files.  If "implot"
+  provides a separate development package or SDK, be sure it has been
+  installed.
+Call Stack (most recent call first):
+  prj.app/CMakeLists.txt:3 (find_package)
 
 
