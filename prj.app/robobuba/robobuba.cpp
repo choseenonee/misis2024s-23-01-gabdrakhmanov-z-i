@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#define DEBUG true
+#define DEBUG false
 
 //todo: структуру данных команды и тащим ссылку на неё внутрь любой команды через менеджера
 
@@ -12,7 +12,7 @@ struct CmdData;
 
 class Command {
 public:
-    virtual std::unique_ptr<Command> Create(const std::stringstream& line) {};
+    virtual std::unique_ptr<Command> Create(std::string line) = 0;
     virtual void Do(CmdData& data) {};
     virtual bool IsSavebale() {return false;};
 };
@@ -29,11 +29,12 @@ public:
     Left() = default;
     Left(int val) : val(val) {};
 
-    virtual std::unique_ptr<Command> Create(std::stringstream& line) final {
+    std::unique_ptr<Command> Create(std::string line) override final {
+        std::istringstream ss_line(line);
         std::string cmd;
-        line >> cmd >> val;
+        ss_line >> cmd >> val;
         if (cmd == "LEFT") {
-            return std::make_unique<Command>(Left(val));
+            return std::make_unique<Left>(Left(val));
         }
         return nullptr;
     };
@@ -53,11 +54,12 @@ public:
     Right() = default;
     Right(int val) : val(val) {};
 
-    virtual std::unique_ptr<Command> Create(std::stringstream& line) final {
+    virtual std::unique_ptr<Command> Create(std::string line) final {
+        std::istringstream ss_line(line);
         std::string cmd;
-        line >> cmd >> val;
+        ss_line >> cmd >> val;
         if (cmd == "RIGHT") {
-            return std::make_unique<Command>(Right(val));
+            return std::make_unique<Right>(Right(val));
         }
         return nullptr;
     };
@@ -76,11 +78,12 @@ public:
     Add() = default;
     Add(int val) : val(val) {};
 
-    virtual std::unique_ptr<Command> Create(std::stringstream& line) final {
+    virtual std::unique_ptr<Command> Create(std::string line) final {
+        std::istringstream ss_line(line);
         std::string cmd;
-        line >> cmd >> val;
+        ss_line >> cmd >> val;
         if (cmd == "ADD") {
-            return std::make_unique<Command>(Add(val));
+            return std::make_unique<Add>(Add(val));
         }
         return nullptr;
     };
@@ -99,11 +102,12 @@ public:
     Sub() = default;
     Sub(int val) : val(val) {};
 
-    virtual std::unique_ptr<Command> Create(std::stringstream& line) final {
+    virtual std::unique_ptr<Command> Create(std::string line) final {
+        std::istringstream ss_line(line);
         std::string cmd;
-        line >> cmd >> val;
+        ss_line >> cmd >> val;
         if (cmd == "SUB") {
-            return std::make_unique<Command>(Sub(val));
+            return std::make_unique<Sub>(Sub(val));
         }
         return nullptr;
     };
@@ -122,11 +126,12 @@ public:
     Go() = default;
     Go(int val) : val(val) {};
 
-    virtual std::unique_ptr<Command> Create(std::stringstream& line) final {
+    virtual std::unique_ptr<Command> Create(std::string line) final {
+        std::istringstream ss_line(line);
         std::string cmd;
-        line >> cmd >> val;
+        ss_line >> cmd >> val;
         if (cmd == "GO") {
-            return std::make_unique<Command>(Go(val));
+            return std::make_unique<Go>(Go(val));
         }
         return nullptr;
     };
@@ -141,7 +146,7 @@ public:
                 print(data.buffer, data.cursor);
             }
         }
-        data.outputFile << data.buffer[data.cursor];
+        data.outputFile << data.buffer[data.cursor] << std::endl;
     };
 
     virtual bool IsSavebale() final {return false;};
@@ -162,11 +167,12 @@ public:
     Rev() = default;
     Rev(int val) : val(val) {};
 
-    virtual std::unique_ptr<Command> Create(std::stringstream& line) final {
+    virtual std::unique_ptr<Command> Create(std::string line) final {
+        std::istringstream ss_line(line);
         std::string cmd;
-        line >> cmd >> val;
+        ss_line >> cmd >> val;
         if (cmd == "REV") {
-            return std::make_unique<Command>(Rev(val));
+            return std::make_unique<Rev>(Rev(val));
         }
         return nullptr;
     };
@@ -194,14 +200,12 @@ public:
     }
     void ParseFile(std::ifstream& inputFile, std::ofstream& outputFile) {
         std::string line;
+
+        CmdData data = {outputFile, std::vector<int>(0), 0, std::vector<std::unique_ptr<Command>>(0)};
+
         while (std::getline(inputFile, line)) {
-            std::stringstream ss_line;
-            ss_line << line;
-
-            CmdData data = {outputFile, std::vector<int>(0), 0, std::vector<std::unique_ptr<Command>>(0)};
-
             for (auto& i : known_commands) {
-                auto cmd_pointer = i->Create(ss_line);
+                auto cmd_pointer = i->Create(line);
                 if (cmd_pointer != nullptr) {
                     if (cmd_pointer->IsSavebale()) {
                         data.parsed_commands.emplace_back(std::move(cmd_pointer));
