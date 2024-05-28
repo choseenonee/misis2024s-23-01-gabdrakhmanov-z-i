@@ -7,8 +7,6 @@
 #include <queuearrt/queuearrt.hpp>
 #include <stackarrt/stackarrt.hpp>
 #include <stacklstt/stacklstt.hpp>
-#include <imgui.h>
-#include <implot.h>
 
 static const int max_data_size = 1050000;
 
@@ -133,17 +131,4 @@ int main() {
     for (int i = 0; i < timings_vector.size(); i++) {
         timings[i] = timings_vector[i];
     }
-
-
-    int bar_data[1] = {10};
-    float x_data[2] = {1, 2};
-    float y_data[2] = {3, 4};
-
-    ImGui::Begin("My Window");
-    if (ImPlot::BeginPlot("My Plot")) {
-        ImPlot::PlotBars("My Bar Plot", bar_data, 11);
-        ImPlot::PlotLine("My Line Plot", x_data, y_data, 1000);
-        ImPlot::EndPlot();
-    }
-    ImGui::End();
 }
